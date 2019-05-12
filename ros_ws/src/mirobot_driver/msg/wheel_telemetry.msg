@@ -1,2 +1,2 @@
-uint8 id
-int16 speed
+int16 speed_l
+int16 speed_r

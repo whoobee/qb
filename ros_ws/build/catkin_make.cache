@@ -1,0 +1,2 @@
+mirobot_driver:ydlidar
+-DCATKIN_DEVEL_PREFIX=/home/whoobee/mirobot/ros_ws/devel -DCMAKE_INSTALL_PREFIX=/home/whoobee/mirobot/ros_ws/install -G Unix Makefiles
