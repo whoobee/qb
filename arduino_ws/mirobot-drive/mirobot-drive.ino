@@ -10,9 +10,12 @@
 #include <ros.h>
 #include <std_msgs/String.h>
 #include <mirobot_driver/wheel_control.h>
+#include <mirobot_driver/wheel_telemetry.h>
+#include <mirobot_driver/bot_telemetry.h>
 
 /* Actuators include */
 #include "MeMegaPi.h"
+#include <Wire.h>
 
 /***********************/
 /* Thread definitions  */
@@ -31,14 +34,28 @@ ros::Subscriber<mirobot_driver::wheel_control> sub("wheel_ctrl", WheelDataCbk );
 
 /* ROS Publisher */
 void PubCbk(void);
-std_msgs::String str_msg;
-ros::Publisher chatter("chatter", &str_msg);
-char hello[13] = "hello world!";
+
+mirobot_driver::bot_telemetry bot_tele;
+ros::Publisher bot_telemetry("bot_telemetry", &bot_tele);
+
+mirobot_driver::wheel_telemetry wheel_tele;
+ros::Publisher wheel_telemetry("wheel_telemetry", &wheel_tele);
 
 
 /************************/
 /* Makeblock definitions*/
 /************************/
+MeGyro gyro;
+int32_t gyroX;
+int32_t gyroY;
+int32_t gyroZ;
+int32_t accX;
+int32_t accY;
+int32_t accZ;
+
+int32_t gyroRight;
+int32_t gyroLeft;
+
 MeMegaPiDCMotor rightMotor(PORT1B); /* Right Motor */
 MeMegaPiDCMotor leftMotor(PORT2B);  /* Left Motor */
 int16_t rightMotorSpeed = 0;
@@ -66,25 +83,40 @@ void WheelDataCbk( const mirobot_driver::wheel_control& wheel_data)
 /* pubThread Cbk*/
 void PubCbk(void)
 {
-  str_msg.data = hello;
-  chatter.publish( &str_msg );
+  bot_tele.id = 0;
+  bot_tele.gyro_x = gyroX;
+  bot_tele.gyro_y = gyroY;
+  bot_tele.gyro_z = gyroZ;
+  bot_tele.acc_x  = accX;
+  bot_tele.acc_y  = accY;
+  bot_tele.acc_z  = accZ;
+  bot_telemetry.publish( &bot_tele );
+
+  wheel_tele.speed_r = gyroRight;
+  wheel_tele.speed_l = gyroLeft;
+  wheel_telemetry.publish( &wheel_tele );
 }
 
 /* Init function */
 void setup()
 {
+  gyro.begin();
   pubThread.onRun(PubCbk);
   pubThread.setInterval(500);
   
-  pinMode(13, OUTPUT);
   nh.initNode();
-  nh.advertise(chatter);
+  nh.advertise(bot_telemetry);
   nh.subscribe(sub);
 }
 
 /* Main handler */
 void loop()
 {
+  gyro.update();
+  gyroX = gyro.getAngleX();
+  gyroY = gyro.getAngleY();
+  gyroZ = gyro.getAngleZ();
+  
   // checks if the publisher thread should run
   if(pubThread.shouldRun())
   {
