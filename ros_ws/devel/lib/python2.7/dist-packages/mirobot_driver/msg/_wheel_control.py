@@ -7,14 +7,16 @@ import struct
 
 
 class wheel_control(genpy.Message):
-  _md5sum = "6a13c855fd502a6ed208724a11e8020c"
+  _md5sum = "7bf657bb437a3a998dcf9c0bf0cd51fa"
   _type = "mirobot_driver/wheel_control"
   _has_header = False #flag to mark the presence of a Header object
-  _full_text = """int16 speed_l
-int16 speed_r
+  _full_text = """uint8 dir_l
+uint8 speed_l
+uint8 dir_r
+uint8 speed_r
 """
-  __slots__ = ['speed_l','speed_r']
-  _slot_types = ['int16','int16']
+  __slots__ = ['dir_l','speed_l','dir_r','speed_r']
+  _slot_types = ['uint8','uint8','uint8','uint8']
 
   def __init__(self, *args, **kwds):
     """
@@ -24,7 +26,7 @@ int16 speed_r
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       speed_l,speed_r
+       dir_l,speed_l,dir_r,speed_r
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -33,12 +35,18 @@ int16 speed_r
     if args or kwds:
       super(wheel_control, self).__init__(*args, **kwds)
       #message fields cannot be None, assign default values for those that are
+      if self.dir_l is None:
+        self.dir_l = 0
       if self.speed_l is None:
         self.speed_l = 0
+      if self.dir_r is None:
+        self.dir_r = 0
       if self.speed_r is None:
         self.speed_r = 0
     else:
+      self.dir_l = 0
       self.speed_l = 0
+      self.dir_r = 0
       self.speed_r = 0
 
   def _get_types(self):
@@ -54,7 +62,7 @@ int16 speed_r
     """
     try:
       _x = self
-      buff.write(_get_struct_2h().pack(_x.speed_l, _x.speed_r))
+      buff.write(_get_struct_4B().pack(_x.dir_l, _x.speed_l, _x.dir_r, _x.speed_r))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -68,7 +76,7 @@ int16 speed_r
       _x = self
       start = end
       end += 4
-      (_x.speed_l, _x.speed_r,) = _get_struct_2h().unpack(str[start:end])
+      (_x.dir_l, _x.speed_l, _x.dir_r, _x.speed_r,) = _get_struct_4B().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -82,7 +90,7 @@ int16 speed_r
     """
     try:
       _x = self
-      buff.write(_get_struct_2h().pack(_x.speed_l, _x.speed_r))
+      buff.write(_get_struct_4B().pack(_x.dir_l, _x.speed_l, _x.dir_r, _x.speed_r))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -97,7 +105,7 @@ int16 speed_r
       _x = self
       start = end
       end += 4
-      (_x.speed_l, _x.speed_r,) = _get_struct_2h().unpack(str[start:end])
+      (_x.dir_l, _x.speed_l, _x.dir_r, _x.speed_r,) = _get_struct_4B().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -106,9 +114,9 @@ _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_2h = None
-def _get_struct_2h():
-    global _struct_2h
-    if _struct_2h is None:
-        _struct_2h = struct.Struct("<2h")
-    return _struct_2h
+_struct_4B = None
+def _get_struct_4B():
+    global _struct_4B
+    if _struct_4B is None:
+        _struct_4B = struct.Struct("<4B")
+    return _struct_4B

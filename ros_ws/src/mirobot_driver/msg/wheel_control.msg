@@ -1,2 +1,4 @@
-int16 speed_l
-int16 speed_r
+uint8 dir_l
+uint8 speed_l
+uint8 dir_r
+uint8 speed_r

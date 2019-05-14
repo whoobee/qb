@@ -24,21 +24,31 @@ struct wheel_control_
   typedef wheel_control_<ContainerAllocator> Type;
 
   wheel_control_()
-    : speed_l(0)
+    : dir_l(0)
+    , speed_l(0)
+    , dir_r(0)
     , speed_r(0)  {
     }
   wheel_control_(const ContainerAllocator& _alloc)
-    : speed_l(0)
+    : dir_l(0)
+    , speed_l(0)
+    , dir_r(0)
     , speed_r(0)  {
   (void)_alloc;
     }
 
 
 
-   typedef int16_t _speed_l_type;
+   typedef uint8_t _dir_l_type;
+  _dir_l_type dir_l;
+
+   typedef uint8_t _speed_l_type;
   _speed_l_type speed_l;
 
-   typedef int16_t _speed_r_type;
+   typedef uint8_t _dir_r_type;
+  _dir_r_type dir_r;
+
+   typedef uint8_t _speed_r_type;
   _speed_r_type speed_r;
 
 
@@ -119,12 +129,12 @@ struct MD5Sum< ::mirobot_driver::wheel_control_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "6a13c855fd502a6ed208724a11e8020c";
+    return "7bf657bb437a3a998dcf9c0bf0cd51fa";
   }
 
   static const char* value(const ::mirobot_driver::wheel_control_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x6a13c855fd502a6eULL;
-  static const uint64_t static_value2 = 0xd208724a11e8020cULL;
+  static const uint64_t static_value1 = 0x7bf657bb437a3a99ULL;
+  static const uint64_t static_value2 = 0x8dcf9c0bf0cd51faULL;
 };
 
 template<class ContainerAllocator>
@@ -143,8 +153,10 @@ struct Definition< ::mirobot_driver::wheel_control_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "int16 speed_l\n"
-"int16 speed_r\n"
+    return "uint8 dir_l\n"
+"uint8 speed_l\n"
+"uint8 dir_r\n"
+"uint8 speed_r\n"
 ;
   }
 
@@ -163,7 +175,9 @@ namespace serialization
   {
     template<typename Stream, typename T> inline static void allInOne(Stream& stream, T m)
     {
+      stream.next(m.dir_l);
       stream.next(m.speed_l);
+      stream.next(m.dir_r);
       stream.next(m.speed_r);
     }
 
@@ -183,10 +197,14 @@ struct Printer< ::mirobot_driver::wheel_control_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::mirobot_driver::wheel_control_<ContainerAllocator>& v)
   {
+    s << indent << "dir_l: ";
+    Printer<uint8_t>::stream(s, indent + "  ", v.dir_l);
     s << indent << "speed_l: ";
-    Printer<int16_t>::stream(s, indent + "  ", v.speed_l);
+    Printer<uint8_t>::stream(s, indent + "  ", v.speed_l);
+    s << indent << "dir_r: ";
+    Printer<uint8_t>::stream(s, indent + "  ", v.dir_r);
     s << indent << "speed_r: ";
-    Printer<int16_t>::stream(s, indent + "  ", v.speed_r);
+    Printer<uint8_t>::stream(s, indent + "  ", v.speed_r);
   }
 };
 

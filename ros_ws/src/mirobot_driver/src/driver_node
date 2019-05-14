@@ -24,7 +24,7 @@ class Driver:
         self._timeout = rospy.get_param('~timeout', 2)
         self._rate = rospy.get_param('~rate', 10)
         self._max_speed = rospy.get_param('~max_speed', 0.5)
-        self._wheel_base = rospy.get_param('~wheel_base', 0.091)
+        self._wheel_base = rospy.get_param('~wheel_base', 0.17)
 
         self._left_speed_percent = 0
         self._right_speed_percent = 0
@@ -62,8 +62,18 @@ class Driver:
         self._left_speed_percent = (100 * left_speed/self._max_speed)
         self._right_speed_percent = (100 * right_speed/self._max_speed)
         
-        self.wheel_data.speed_l = self._left_speed_percent
-        self.wheel_data.speed_r = self._right_speed_percent
+        if self._left_speed_percent > 0
+            self.wheel_data.dir_l = 0
+            self.wheel_data.speed_l = self._left_speed_percent
+        else
+            self.wheel_data.dir_l = 1
+            self.wheel_data.speed_l = -self._left_speed_percent
+        if self._right_speed_percent > 0
+            self.wheel_data.dir_r = 0
+            self.wheel_data.speed_r = self._right_speed_percent
+        else
+            self.wheel_data.dir_r = 1
+            self.wheel_data.speed_r = -self._right_speed_percent
 
     def run(self):
         """The control loop of the driver."""
