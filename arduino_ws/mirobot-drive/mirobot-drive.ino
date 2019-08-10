@@ -127,7 +127,7 @@ void loop()
   leftMotor.run(leftMotorSpeed);      /* value: between -255 and 255. */
   
   nh.spinOnce();
-  delay(1);
+  delay(100);
 }
 
 

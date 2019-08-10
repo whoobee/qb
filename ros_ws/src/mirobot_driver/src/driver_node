@@ -33,7 +33,7 @@ class Driver:
         self.sub = rospy.Subscriber(
             'cmd_vel', Twist, self.velocity_received_callback)
 
-        # Setup subscriber for velocity twist message
+        # Setup publisher for motor control message
         self.pub = rospy.Publisher(
             'wheel_ctrl', wheel_control, queue_size=256)
         
@@ -62,16 +62,17 @@ class Driver:
         self._left_speed_percent = (100 * left_speed/self._max_speed)
         self._right_speed_percent = (100 * right_speed/self._max_speed)
         
-        if self._left_speed_percent > 0
+        if self._left_speed_percent > 0:
             self.wheel_data.dir_l = 0
             self.wheel_data.speed_l = self._left_speed_percent
-        else
+        else:
             self.wheel_data.dir_l = 1
             self.wheel_data.speed_l = -self._left_speed_percent
-        if self._right_speed_percent > 0
+            
+        if self._right_speed_percent > 0:
             self.wheel_data.dir_r = 0
             self.wheel_data.speed_r = self._right_speed_percent
-        else
+        else:
             self.wheel_data.dir_r = 1
             self.wheel_data.speed_r = -self._right_speed_percent
 
