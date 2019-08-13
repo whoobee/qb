@@ -56,18 +56,6 @@ CMAKE_BINARY_DIR = /home/whoobee/mirobot/ros_ws/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
-
 # Special rule for the target install/strip
 install/strip: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
@@ -79,6 +67,30 @@ install/strip/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
 	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
 
 # Special rule for the target test
 test:
@@ -111,18 +123,6 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
-
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
 
 # Special rule for the target rebuild_cache
 rebuild_cache:
@@ -196,306 +196,6 @@ ydlidar_node: ydlidar/CMakeFiles/ydlidar_node.dir/rule
 ydlidar_node/fast:
 	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f ydlidar/CMakeFiles/ydlidar_node.dir/build.make ydlidar/CMakeFiles/ydlidar_node.dir/build
 .PHONY : ydlidar_node/fast
-
-# Convenience name for target.
-ydlidar/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ydlidar/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
-.PHONY : ydlidar/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-geometry_msgs_generate_messages_py: ydlidar/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
-
-.PHONY : geometry_msgs_generate_messages_py
-
-# fast build rule for target.
-geometry_msgs_generate_messages_py/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f ydlidar/CMakeFiles/geometry_msgs_generate_messages_py.dir/build.make ydlidar/CMakeFiles/geometry_msgs_generate_messages_py.dir/build
-.PHONY : geometry_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-ydlidar/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ydlidar/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule
-.PHONY : ydlidar/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-geometry_msgs_generate_messages_lisp: ydlidar/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : geometry_msgs_generate_messages_lisp
-
-# fast build rule for target.
-geometry_msgs_generate_messages_lisp/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f ydlidar/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build.make ydlidar/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build
-.PHONY : geometry_msgs_generate_messages_lisp/fast
-
-# Convenience name for target.
-ydlidar/CMakeFiles/geometry_msgs_generate_messages_eus.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ydlidar/CMakeFiles/geometry_msgs_generate_messages_eus.dir/rule
-.PHONY : ydlidar/CMakeFiles/geometry_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-geometry_msgs_generate_messages_eus: ydlidar/CMakeFiles/geometry_msgs_generate_messages_eus.dir/rule
-
-.PHONY : geometry_msgs_generate_messages_eus
-
-# fast build rule for target.
-geometry_msgs_generate_messages_eus/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f ydlidar/CMakeFiles/geometry_msgs_generate_messages_eus.dir/build.make ydlidar/CMakeFiles/geometry_msgs_generate_messages_eus.dir/build
-.PHONY : geometry_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-ydlidar/CMakeFiles/roscpp_generate_messages_py.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ydlidar/CMakeFiles/roscpp_generate_messages_py.dir/rule
-.PHONY : ydlidar/CMakeFiles/roscpp_generate_messages_py.dir/rule
-
-# Convenience name for target.
-roscpp_generate_messages_py: ydlidar/CMakeFiles/roscpp_generate_messages_py.dir/rule
-
-.PHONY : roscpp_generate_messages_py
-
-# fast build rule for target.
-roscpp_generate_messages_py/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f ydlidar/CMakeFiles/roscpp_generate_messages_py.dir/build.make ydlidar/CMakeFiles/roscpp_generate_messages_py.dir/build
-.PHONY : roscpp_generate_messages_py/fast
-
-# Convenience name for target.
-ydlidar/CMakeFiles/roscpp_generate_messages_nodejs.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ydlidar/CMakeFiles/roscpp_generate_messages_nodejs.dir/rule
-.PHONY : ydlidar/CMakeFiles/roscpp_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-roscpp_generate_messages_nodejs: ydlidar/CMakeFiles/roscpp_generate_messages_nodejs.dir/rule
-
-.PHONY : roscpp_generate_messages_nodejs
-
-# fast build rule for target.
-roscpp_generate_messages_nodejs/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f ydlidar/CMakeFiles/roscpp_generate_messages_nodejs.dir/build.make ydlidar/CMakeFiles/roscpp_generate_messages_nodejs.dir/build
-.PHONY : roscpp_generate_messages_nodejs/fast
-
-# Convenience name for target.
-ydlidar/CMakeFiles/roscpp_generate_messages_eus.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ydlidar/CMakeFiles/roscpp_generate_messages_eus.dir/rule
-.PHONY : ydlidar/CMakeFiles/roscpp_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-roscpp_generate_messages_eus: ydlidar/CMakeFiles/roscpp_generate_messages_eus.dir/rule
-
-.PHONY : roscpp_generate_messages_eus
-
-# fast build rule for target.
-roscpp_generate_messages_eus/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f ydlidar/CMakeFiles/roscpp_generate_messages_eus.dir/build.make ydlidar/CMakeFiles/roscpp_generate_messages_eus.dir/build
-.PHONY : roscpp_generate_messages_eus/fast
-
-# Convenience name for target.
-ydlidar/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ydlidar/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/rule
-.PHONY : ydlidar/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-geometry_msgs_generate_messages_nodejs: ydlidar/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : geometry_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-geometry_msgs_generate_messages_nodejs/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f ydlidar/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build.make ydlidar/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build
-.PHONY : geometry_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-ydlidar/CMakeFiles/roscpp_generate_messages_lisp.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ydlidar/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
-.PHONY : ydlidar/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-roscpp_generate_messages_lisp: ydlidar/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
-
-.PHONY : roscpp_generate_messages_lisp
-
-# fast build rule for target.
-roscpp_generate_messages_lisp/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f ydlidar/CMakeFiles/roscpp_generate_messages_lisp.dir/build.make ydlidar/CMakeFiles/roscpp_generate_messages_lisp.dir/build
-.PHONY : roscpp_generate_messages_lisp/fast
-
-# Convenience name for target.
-ydlidar/CMakeFiles/sensor_msgs_generate_messages_py.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ydlidar/CMakeFiles/sensor_msgs_generate_messages_py.dir/rule
-.PHONY : ydlidar/CMakeFiles/sensor_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-sensor_msgs_generate_messages_py: ydlidar/CMakeFiles/sensor_msgs_generate_messages_py.dir/rule
-
-.PHONY : sensor_msgs_generate_messages_py
-
-# fast build rule for target.
-sensor_msgs_generate_messages_py/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f ydlidar/CMakeFiles/sensor_msgs_generate_messages_py.dir/build.make ydlidar/CMakeFiles/sensor_msgs_generate_messages_py.dir/build
-.PHONY : sensor_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
-.PHONY : ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-rosgraph_msgs_generate_messages_cpp: ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : rosgraph_msgs_generate_messages_cpp
-
-# fast build rule for target.
-rosgraph_msgs_generate_messages_cpp/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build
-.PHONY : rosgraph_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-ydlidar/CMakeFiles/roscpp_generate_messages_cpp.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ydlidar/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
-.PHONY : ydlidar/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-roscpp_generate_messages_cpp: ydlidar/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
-
-.PHONY : roscpp_generate_messages_cpp
-
-# fast build rule for target.
-roscpp_generate_messages_cpp/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f ydlidar/CMakeFiles/roscpp_generate_messages_cpp.dir/build.make ydlidar/CMakeFiles/roscpp_generate_messages_cpp.dir/build
-.PHONY : roscpp_generate_messages_cpp/fast
-
-# Convenience name for target.
-ydlidar/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ydlidar/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule
-.PHONY : ydlidar/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-geometry_msgs_generate_messages_cpp: ydlidar/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : geometry_msgs_generate_messages_cpp
-
-# fast build rule for target.
-geometry_msgs_generate_messages_cpp/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f ydlidar/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build.make ydlidar/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build
-.PHONY : geometry_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
-.PHONY : ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-rosgraph_msgs_generate_messages_eus: ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
-
-.PHONY : rosgraph_msgs_generate_messages_eus
-
-# fast build rule for target.
-rosgraph_msgs_generate_messages_eus/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build
-.PHONY : rosgraph_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
-.PHONY : ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-rosgraph_msgs_generate_messages_lisp: ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : rosgraph_msgs_generate_messages_lisp
-
-# fast build rule for target.
-rosgraph_msgs_generate_messages_lisp/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build
-.PHONY : rosgraph_msgs_generate_messages_lisp/fast
-
-# Convenience name for target.
-ydlidar/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ydlidar/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/rule
-.PHONY : ydlidar/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-sensor_msgs_generate_messages_nodejs: ydlidar/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : sensor_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-sensor_msgs_generate_messages_nodejs/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f ydlidar/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/build.make ydlidar/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/build
-.PHONY : sensor_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
-.PHONY : ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-rosgraph_msgs_generate_messages_nodejs: ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : rosgraph_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-rosgraph_msgs_generate_messages_nodejs/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build
-.PHONY : rosgraph_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
-.PHONY : ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-rosgraph_msgs_generate_messages_py: ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
-
-.PHONY : rosgraph_msgs_generate_messages_py
-
-# fast build rule for target.
-rosgraph_msgs_generate_messages_py/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make ydlidar/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build
-.PHONY : rosgraph_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-ydlidar/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ydlidar/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/rule
-.PHONY : ydlidar/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-sensor_msgs_generate_messages_cpp: ydlidar/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : sensor_msgs_generate_messages_cpp
-
-# fast build rule for target.
-sensor_msgs_generate_messages_cpp/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f ydlidar/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/build.make ydlidar/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/build
-.PHONY : sensor_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-ydlidar/CMakeFiles/sensor_msgs_generate_messages_eus.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ydlidar/CMakeFiles/sensor_msgs_generate_messages_eus.dir/rule
-.PHONY : ydlidar/CMakeFiles/sensor_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-sensor_msgs_generate_messages_eus: ydlidar/CMakeFiles/sensor_msgs_generate_messages_eus.dir/rule
-
-.PHONY : sensor_msgs_generate_messages_eus
-
-# fast build rule for target.
-sensor_msgs_generate_messages_eus/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f ydlidar/CMakeFiles/sensor_msgs_generate_messages_eus.dir/build.make ydlidar/CMakeFiles/sensor_msgs_generate_messages_eus.dir/build
-.PHONY : sensor_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-ydlidar/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ydlidar/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/rule
-.PHONY : ydlidar/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-sensor_msgs_generate_messages_lisp: ydlidar/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : sensor_msgs_generate_messages_lisp
-
-# fast build rule for target.
-sensor_msgs_generate_messages_lisp/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f ydlidar/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/build.make ydlidar/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/build
-.PHONY : sensor_msgs_generate_messages_lisp/fast
 
 sdk/src/CYdLidar.o: sdk/src/CYdLidar.cpp.o
 
@@ -773,35 +473,15 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... install/local"
 	@echo "... install/strip"
+	@echo "... install"
 	@echo "... ydlidar_client"
 	@echo "... ydlidar_node"
-	@echo "... geometry_msgs_generate_messages_py"
+	@echo "... install/local"
 	@echo "... test"
-	@echo "... geometry_msgs_generate_messages_lisp"
 	@echo "... list_install_components"
-	@echo "... geometry_msgs_generate_messages_eus"
-	@echo "... roscpp_generate_messages_py"
-	@echo "... roscpp_generate_messages_nodejs"
-	@echo "... roscpp_generate_messages_eus"
 	@echo "... edit_cache"
-	@echo "... geometry_msgs_generate_messages_nodejs"
-	@echo "... roscpp_generate_messages_lisp"
-	@echo "... sensor_msgs_generate_messages_py"
-	@echo "... rosgraph_msgs_generate_messages_cpp"
-	@echo "... roscpp_generate_messages_cpp"
-	@echo "... geometry_msgs_generate_messages_cpp"
-	@echo "... install"
-	@echo "... rosgraph_msgs_generate_messages_eus"
-	@echo "... rosgraph_msgs_generate_messages_lisp"
-	@echo "... sensor_msgs_generate_messages_nodejs"
-	@echo "... rosgraph_msgs_generate_messages_nodejs"
-	@echo "... rosgraph_msgs_generate_messages_py"
-	@echo "... sensor_msgs_generate_messages_cpp"
-	@echo "... sensor_msgs_generate_messages_eus"
 	@echo "... rebuild_cache"
-	@echo "... sensor_msgs_generate_messages_lisp"
 	@echo "... sdk/src/CYdLidar.o"
 	@echo "... sdk/src/CYdLidar.i"
 	@echo "... sdk/src/CYdLidar.s"
