@@ -145,7 +145,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/whoobee/mirobot/ros_ws/build/hector_slam/hector_map_server/cmake_install.cmake")
   include("/home/whoobee/mirobot/ros_ws/build/hector_slam/hector_trajectory_server/cmake_install.cmake")
   include("/home/whoobee/mirobot/ros_ws/build/hector_slam/hector_mapping/cmake_install.cmake")
-  include("/home/whoobee/mirobot/ros_ws/build/ydlidar/cmake_install.cmake")
+  include("/home/whoobee/mirobot/ros_ws/build/ydlidar_ros/cmake_install.cmake")
 
 endif()
 

@@ -1233,6 +1233,12 @@ ydlidar_BINARY_DIR:STATIC=/home/whoobee/mirobot/ros_ws/build/ydlidar
 //Value Computed by CMake
 ydlidar_SOURCE_DIR:STATIC=/home/whoobee/mirobot/ros_ws/src/ydlidar
 
+//Value Computed by CMake
+ydlidar_ros_BINARY_DIR:STATIC=/home/whoobee/mirobot/ros_ws/build/ydlidar_ros
+
+//Value Computed by CMake
+ydlidar_ros_SOURCE_DIR:STATIC=/home/whoobee/mirobot/ros_ws/src/ydlidar_ros
+
 
 ########################
 # INTERNAL cache entries

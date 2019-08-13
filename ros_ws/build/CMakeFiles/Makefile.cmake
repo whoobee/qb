@@ -48,8 +48,8 @@ set(CMAKE_MAKEFILE_DEPENDS
   "mirobot_driver/catkin_generated/ordered_paths.cmake"
   "mirobot_driver/catkin_generated/package.cmake"
   "mirobot_driver/cmake/mirobot_driver-genmsg.cmake"
-  "ydlidar/catkin_generated/ordered_paths.cmake"
-  "ydlidar/catkin_generated/package.cmake"
+  "ydlidar_ros/catkin_generated/ordered_paths.cmake"
+  "ydlidar_ros/catkin_generated/package.cmake"
   "/home/whoobee/mirobot/ros_ws/devel/share/hector_geotiff/cmake/hector_geotiffConfig-version.cmake"
   "/home/whoobee/mirobot/ros_ws/devel/share/hector_geotiff/cmake/hector_geotiffConfig.cmake"
   "/home/whoobee/mirobot/ros_ws/devel/share/hector_map_tools/cmake/hector_map_toolsConfig-version.cmake"
@@ -91,8 +91,8 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/home/whoobee/mirobot/ros_ws/src/hector_slam/hector_trajectory_server/package.xml"
   "/home/whoobee/mirobot/ros_ws/src/mirobot_driver/CMakeLists.txt"
   "/home/whoobee/mirobot/ros_ws/src/mirobot_driver/package.xml"
-  "/home/whoobee/mirobot/ros_ws/src/ydlidar/CMakeLists.txt"
-  "/home/whoobee/mirobot/ros_ws/src/ydlidar/package.xml"
+  "/home/whoobee/mirobot/ros_ws/src/ydlidar_ros/CMakeLists.txt"
+  "/home/whoobee/mirobot/ros_ws/src/ydlidar_ros/package.xml"
   "/opt/ros/melodic/share/actionlib/cmake/actionlib-msg-extras.cmake"
   "/opt/ros/melodic/share/actionlib/cmake/actionlibConfig-version.cmake"
   "/opt/ros/melodic/share/actionlib/cmake/actionlibConfig.cmake"
@@ -274,7 +274,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-3.10/Modules/CMakeCInformation.cmake"
   "/usr/share/cmake-3.10/Modules/CMakeCXXInformation.cmake"
   "/usr/share/cmake-3.10/Modules/CMakeCommonLanguageInclude.cmake"
-  "/usr/share/cmake-3.10/Modules/CMakeConfigurableFile.in"
   "/usr/share/cmake-3.10/Modules/CMakeGenericSystem.cmake"
   "/usr/share/cmake-3.10/Modules/CMakeLanguageInformation.cmake"
   "/usr/share/cmake-3.10/Modules/CMakeParseArguments.cmake"
@@ -366,7 +365,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "hector_slam/hector_map_server/CMakeFiles/CMakeDirectoryInformation.cmake"
   "hector_slam/hector_trajectory_server/CMakeFiles/CMakeDirectoryInformation.cmake"
   "hector_slam/hector_mapping/CMakeFiles/CMakeDirectoryInformation.cmake"
-  "ydlidar/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "ydlidar_ros/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
@@ -489,6 +488,6 @@ set(CMAKE_DEPEND_INFO_FILES
   "hector_slam/hector_mapping/CMakeFiles/_hector_mapping_generate_messages_check_deps_HectorDebugInfo.dir/DependInfo.cmake"
   "hector_slam/hector_mapping/CMakeFiles/hector_mapping_genpy.dir/DependInfo.cmake"
   "hector_slam/hector_mapping/CMakeFiles/hector_mapping_generate_messages_py.dir/DependInfo.cmake"
-  "ydlidar/CMakeFiles/ydlidar_client.dir/DependInfo.cmake"
-  "ydlidar/CMakeFiles/ydlidar_node.dir/DependInfo.cmake"
+  "ydlidar_ros/CMakeFiles/ydlidar_client.dir/DependInfo.cmake"
+  "ydlidar_ros/CMakeFiles/ydlidar_node.dir/DependInfo.cmake"
   )

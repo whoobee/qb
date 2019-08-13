@@ -1711,7 +1711,7 @@ ydlidar_client: cmake_check_build_system
 
 # fast build rule for target.
 ydlidar_client/fast:
-	$(MAKE) -f ydlidar/CMakeFiles/ydlidar_client.dir/build.make ydlidar/CMakeFiles/ydlidar_client.dir/build
+	$(MAKE) -f ydlidar_ros/CMakeFiles/ydlidar_client.dir/build.make ydlidar_ros/CMakeFiles/ydlidar_client.dir/build
 .PHONY : ydlidar_client/fast
 
 #=============================================================================
@@ -1724,7 +1724,7 @@ ydlidar_node: cmake_check_build_system
 
 # fast build rule for target.
 ydlidar_node/fast:
-	$(MAKE) -f ydlidar/CMakeFiles/ydlidar_node.dir/build.make ydlidar/CMakeFiles/ydlidar_node.dir/build
+	$(MAKE) -f ydlidar_ros/CMakeFiles/ydlidar_node.dir/build.make ydlidar_ros/CMakeFiles/ydlidar_node.dir/build
 .PHONY : ydlidar_node/fast
 
 # Help Target
