@@ -115,25 +115,14 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
-
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-
-.PHONY : test/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -168,36 +157,6 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-mirobot_driver/CMakeFiles/mirobot_driver_gencpp.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mirobot_driver/CMakeFiles/mirobot_driver_gencpp.dir/rule
-.PHONY : mirobot_driver/CMakeFiles/mirobot_driver_gencpp.dir/rule
-
-# Convenience name for target.
-mirobot_driver_gencpp: mirobot_driver/CMakeFiles/mirobot_driver_gencpp.dir/rule
-
-.PHONY : mirobot_driver_gencpp
-
-# fast build rule for target.
-mirobot_driver_gencpp/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f mirobot_driver/CMakeFiles/mirobot_driver_gencpp.dir/build.make mirobot_driver/CMakeFiles/mirobot_driver_gencpp.dir/build
-.PHONY : mirobot_driver_gencpp/fast
-
-# Convenience name for target.
-mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_wheel_control.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_wheel_control.dir/rule
-.PHONY : mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_wheel_control.dir/rule
-
-# Convenience name for target.
-_mirobot_driver_generate_messages_check_deps_wheel_control: mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_wheel_control.dir/rule
-
-.PHONY : _mirobot_driver_generate_messages_check_deps_wheel_control
-
-# fast build rule for target.
-_mirobot_driver_generate_messages_check_deps_wheel_control/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_wheel_control.dir/build.make mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_wheel_control.dir/build
-.PHONY : _mirobot_driver_generate_messages_check_deps_wheel_control/fast
-
-# Convenience name for target.
 mirobot_driver/CMakeFiles/mirobot_driver_gennodejs.dir/rule:
 	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mirobot_driver/CMakeFiles/mirobot_driver_gennodejs.dir/rule
 .PHONY : mirobot_driver/CMakeFiles/mirobot_driver_gennodejs.dir/rule
@@ -211,6 +170,96 @@ mirobot_driver_gennodejs: mirobot_driver/CMakeFiles/mirobot_driver_gennodejs.dir
 mirobot_driver_gennodejs/fast:
 	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f mirobot_driver/CMakeFiles/mirobot_driver_gennodejs.dir/build.make mirobot_driver/CMakeFiles/mirobot_driver_gennodejs.dir/build
 .PHONY : mirobot_driver_gennodejs/fast
+
+# Convenience name for target.
+mirobot_driver/CMakeFiles/std_msgs_generate_messages_py.dir/rule:
+	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mirobot_driver/CMakeFiles/std_msgs_generate_messages_py.dir/rule
+.PHONY : mirobot_driver/CMakeFiles/std_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+std_msgs_generate_messages_py: mirobot_driver/CMakeFiles/std_msgs_generate_messages_py.dir/rule
+
+.PHONY : std_msgs_generate_messages_py
+
+# fast build rule for target.
+std_msgs_generate_messages_py/fast:
+	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f mirobot_driver/CMakeFiles/std_msgs_generate_messages_py.dir/build.make mirobot_driver/CMakeFiles/std_msgs_generate_messages_py.dir/build
+.PHONY : std_msgs_generate_messages_py/fast
+
+# Convenience name for target.
+mirobot_driver/CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule:
+	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mirobot_driver/CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule
+.PHONY : mirobot_driver/CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+std_msgs_generate_messages_nodejs: mirobot_driver/CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : std_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+std_msgs_generate_messages_nodejs/fast:
+	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f mirobot_driver/CMakeFiles/std_msgs_generate_messages_nodejs.dir/build.make mirobot_driver/CMakeFiles/std_msgs_generate_messages_nodejs.dir/build
+.PHONY : std_msgs_generate_messages_nodejs/fast
+
+# Convenience name for target.
+mirobot_driver/CMakeFiles/mirobot_driver_genlisp.dir/rule:
+	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mirobot_driver/CMakeFiles/mirobot_driver_genlisp.dir/rule
+.PHONY : mirobot_driver/CMakeFiles/mirobot_driver_genlisp.dir/rule
+
+# Convenience name for target.
+mirobot_driver_genlisp: mirobot_driver/CMakeFiles/mirobot_driver_genlisp.dir/rule
+
+.PHONY : mirobot_driver_genlisp
+
+# fast build rule for target.
+mirobot_driver_genlisp/fast:
+	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f mirobot_driver/CMakeFiles/mirobot_driver_genlisp.dir/build.make mirobot_driver/CMakeFiles/mirobot_driver_genlisp.dir/build
+.PHONY : mirobot_driver_genlisp/fast
+
+# Convenience name for target.
+mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_py.dir/rule:
+	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_py.dir/rule
+.PHONY : mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_py.dir/rule
+
+# Convenience name for target.
+mirobot_driver_generate_messages_py: mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_py.dir/rule
+
+.PHONY : mirobot_driver_generate_messages_py
+
+# fast build rule for target.
+mirobot_driver_generate_messages_py/fast:
+	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_py.dir/build.make mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_py.dir/build
+.PHONY : mirobot_driver_generate_messages_py/fast
+
+# Convenience name for target.
+mirobot_driver/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule:
+	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mirobot_driver/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
+.PHONY : mirobot_driver/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+std_msgs_generate_messages_lisp: mirobot_driver/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
+
+.PHONY : std_msgs_generate_messages_lisp
+
+# fast build rule for target.
+std_msgs_generate_messages_lisp/fast:
+	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f mirobot_driver/CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make mirobot_driver/CMakeFiles/std_msgs_generate_messages_lisp.dir/build
+.PHONY : std_msgs_generate_messages_lisp/fast
+
+# Convenience name for target.
+mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_eus.dir/rule:
+	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_eus.dir/rule
+.PHONY : mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+mirobot_driver_generate_messages_eus: mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_eus.dir/rule
+
+.PHONY : mirobot_driver_generate_messages_eus
+
+# fast build rule for target.
+mirobot_driver_generate_messages_eus/fast:
+	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_eus.dir/build.make mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_eus.dir/build
+.PHONY : mirobot_driver_generate_messages_eus/fast
 
 # Convenience name for target.
 mirobot_driver/CMakeFiles/mirobot_driver_genpy.dir/rule:
@@ -243,19 +292,19 @@ mirobot_driver_generate_messages_cpp/fast:
 .PHONY : mirobot_driver_generate_messages_cpp/fast
 
 # Convenience name for target.
-mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_bot_telemetry.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_bot_telemetry.dir/rule
-.PHONY : mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_bot_telemetry.dir/rule
+mirobot_driver/CMakeFiles/std_msgs_generate_messages_eus.dir/rule:
+	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mirobot_driver/CMakeFiles/std_msgs_generate_messages_eus.dir/rule
+.PHONY : mirobot_driver/CMakeFiles/std_msgs_generate_messages_eus.dir/rule
 
 # Convenience name for target.
-_mirobot_driver_generate_messages_check_deps_bot_telemetry: mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_bot_telemetry.dir/rule
+std_msgs_generate_messages_eus: mirobot_driver/CMakeFiles/std_msgs_generate_messages_eus.dir/rule
 
-.PHONY : _mirobot_driver_generate_messages_check_deps_bot_telemetry
+.PHONY : std_msgs_generate_messages_eus
 
 # fast build rule for target.
-_mirobot_driver_generate_messages_check_deps_bot_telemetry/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_bot_telemetry.dir/build.make mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_bot_telemetry.dir/build
-.PHONY : _mirobot_driver_generate_messages_check_deps_bot_telemetry/fast
+std_msgs_generate_messages_eus/fast:
+	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f mirobot_driver/CMakeFiles/std_msgs_generate_messages_eus.dir/build.make mirobot_driver/CMakeFiles/std_msgs_generate_messages_eus.dir/build
+.PHONY : std_msgs_generate_messages_eus/fast
 
 # Convenience name for target.
 mirobot_driver/CMakeFiles/mirobot_driver_generate_messages.dir/rule:
@@ -286,6 +335,66 @@ _mirobot_driver_generate_messages_check_deps_wheel_telemetry: mirobot_driver/CMa
 _mirobot_driver_generate_messages_check_deps_wheel_telemetry/fast:
 	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_wheel_telemetry.dir/build.make mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_wheel_telemetry.dir/build
 .PHONY : _mirobot_driver_generate_messages_check_deps_wheel_telemetry/fast
+
+# Convenience name for target.
+mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_bot_telemetry.dir/rule:
+	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_bot_telemetry.dir/rule
+.PHONY : mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_bot_telemetry.dir/rule
+
+# Convenience name for target.
+_mirobot_driver_generate_messages_check_deps_bot_telemetry: mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_bot_telemetry.dir/rule
+
+.PHONY : _mirobot_driver_generate_messages_check_deps_bot_telemetry
+
+# fast build rule for target.
+_mirobot_driver_generate_messages_check_deps_bot_telemetry/fast:
+	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_bot_telemetry.dir/build.make mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_bot_telemetry.dir/build
+.PHONY : _mirobot_driver_generate_messages_check_deps_bot_telemetry/fast
+
+# Convenience name for target.
+mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_wheel_control.dir/rule:
+	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_wheel_control.dir/rule
+.PHONY : mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_wheel_control.dir/rule
+
+# Convenience name for target.
+_mirobot_driver_generate_messages_check_deps_wheel_control: mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_wheel_control.dir/rule
+
+.PHONY : _mirobot_driver_generate_messages_check_deps_wheel_control
+
+# fast build rule for target.
+_mirobot_driver_generate_messages_check_deps_wheel_control/fast:
+	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_wheel_control.dir/build.make mirobot_driver/CMakeFiles/_mirobot_driver_generate_messages_check_deps_wheel_control.dir/build
+.PHONY : _mirobot_driver_generate_messages_check_deps_wheel_control/fast
+
+# Convenience name for target.
+mirobot_driver/CMakeFiles/mirobot_driver_gencpp.dir/rule:
+	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mirobot_driver/CMakeFiles/mirobot_driver_gencpp.dir/rule
+.PHONY : mirobot_driver/CMakeFiles/mirobot_driver_gencpp.dir/rule
+
+# Convenience name for target.
+mirobot_driver_gencpp: mirobot_driver/CMakeFiles/mirobot_driver_gencpp.dir/rule
+
+.PHONY : mirobot_driver_gencpp
+
+# fast build rule for target.
+mirobot_driver_gencpp/fast:
+	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f mirobot_driver/CMakeFiles/mirobot_driver_gencpp.dir/build.make mirobot_driver/CMakeFiles/mirobot_driver_gencpp.dir/build
+.PHONY : mirobot_driver_gencpp/fast
+
+# Convenience name for target.
+mirobot_driver/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule:
+	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mirobot_driver/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
+.PHONY : mirobot_driver/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+std_msgs_generate_messages_cpp: mirobot_driver/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
+
+.PHONY : std_msgs_generate_messages_cpp
+
+# fast build rule for target.
+std_msgs_generate_messages_cpp/fast:
+	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f mirobot_driver/CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make mirobot_driver/CMakeFiles/std_msgs_generate_messages_cpp.dir/build
+.PHONY : std_msgs_generate_messages_cpp/fast
 
 # Convenience name for target.
 mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_nodejs.dir/rule:
@@ -332,51 +441,6 @@ mirobot_driver_generate_messages_lisp/fast:
 	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_lisp.dir/build.make mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_lisp.dir/build
 .PHONY : mirobot_driver_generate_messages_lisp/fast
 
-# Convenience name for target.
-mirobot_driver/CMakeFiles/mirobot_driver_genlisp.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mirobot_driver/CMakeFiles/mirobot_driver_genlisp.dir/rule
-.PHONY : mirobot_driver/CMakeFiles/mirobot_driver_genlisp.dir/rule
-
-# Convenience name for target.
-mirobot_driver_genlisp: mirobot_driver/CMakeFiles/mirobot_driver_genlisp.dir/rule
-
-.PHONY : mirobot_driver_genlisp
-
-# fast build rule for target.
-mirobot_driver_genlisp/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f mirobot_driver/CMakeFiles/mirobot_driver_genlisp.dir/build.make mirobot_driver/CMakeFiles/mirobot_driver_genlisp.dir/build
-.PHONY : mirobot_driver_genlisp/fast
-
-# Convenience name for target.
-mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_eus.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_eus.dir/rule
-.PHONY : mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-mirobot_driver_generate_messages_eus: mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_eus.dir/rule
-
-.PHONY : mirobot_driver_generate_messages_eus
-
-# fast build rule for target.
-mirobot_driver_generate_messages_eus/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_eus.dir/build.make mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_eus.dir/build
-.PHONY : mirobot_driver_generate_messages_eus/fast
-
-# Convenience name for target.
-mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_py.dir/rule:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_py.dir/rule
-.PHONY : mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_py.dir/rule
-
-# Convenience name for target.
-mirobot_driver_generate_messages_py: mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_py.dir/rule
-
-.PHONY : mirobot_driver_generate_messages_py
-
-# fast build rule for target.
-mirobot_driver_generate_messages_py/fast:
-	cd /home/whoobee/mirobot/ros_ws/build && $(MAKE) -f mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_py.dir/build.make mirobot_driver/CMakeFiles/mirobot_driver_generate_messages_py.dir/build
-.PHONY : mirobot_driver_generate_messages_py/fast
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -388,22 +452,26 @@ help:
 	@echo "... install"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... mirobot_driver_gencpp"
-	@echo "... _mirobot_driver_generate_messages_check_deps_wheel_control"
 	@echo "... mirobot_driver_gennodejs"
+	@echo "... std_msgs_generate_messages_py"
+	@echo "... std_msgs_generate_messages_nodejs"
+	@echo "... mirobot_driver_genlisp"
+	@echo "... mirobot_driver_generate_messages_py"
+	@echo "... std_msgs_generate_messages_lisp"
+	@echo "... mirobot_driver_generate_messages_eus"
 	@echo "... mirobot_driver_genpy"
 	@echo "... mirobot_driver_generate_messages_cpp"
-	@echo "... edit_cache"
-	@echo "... _mirobot_driver_generate_messages_check_deps_bot_telemetry"
+	@echo "... std_msgs_generate_messages_eus"
 	@echo "... mirobot_driver_generate_messages"
 	@echo "... _mirobot_driver_generate_messages_check_deps_wheel_telemetry"
+	@echo "... edit_cache"
+	@echo "... _mirobot_driver_generate_messages_check_deps_bot_telemetry"
+	@echo "... _mirobot_driver_generate_messages_check_deps_wheel_control"
+	@echo "... mirobot_driver_gencpp"
+	@echo "... std_msgs_generate_messages_cpp"
 	@echo "... mirobot_driver_generate_messages_nodejs"
 	@echo "... mirobot_driver_geneus"
 	@echo "... mirobot_driver_generate_messages_lisp"
-	@echo "... mirobot_driver_genlisp"
-	@echo "... mirobot_driver_generate_messages_eus"
-	@echo "... mirobot_driver_generate_messages_py"
-	@echo "... test"
 .PHONY : help
 
 

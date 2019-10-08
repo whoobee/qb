@@ -1,0 +1,8 @@
+prefix=/home/whoobee/mirobot/ros_ws/install
+
+Name: mirobot_driver
+Description: Description of mirobot_driver
+Version: 0.1.0
+Cflags: -I/home/whoobee/mirobot/ros_ws/install/include
+Libs: -L/home/whoobee/mirobot/ros_ws/install/lib 
+Requires: rospy std_msgs message_runtime

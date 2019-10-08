@@ -7,5 +7,4 @@
 # new environment variables
 
 # modified environment variables
-export LD_LIBRARY_PATH="/home/whoobee/mirobot/ros_ws/devel/lib:/opt/ros/melodic/lib:/usr/local/lib"
 export PWD="/home/whoobee/mirobot/ros_ws/build"

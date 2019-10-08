@@ -1,0 +1,14 @@
+<launch>
+<!-- CAMERA -->
+  <include file="$(find mirobot-launch)/launch/mirobot-cameras.launch">
+    </include>
+    
+<!-- Occupancy-mapping -->
+  <include file="$(find mirobot-launch)/launch/mirobot-occupancy.launch"/>
+  <node pkg="mirobot-launch" type="mirobot-publish-map.py" name="map_frame_publisher" output="screen"/>
+  <node name="static_tf0" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0.2 0 0 0 /map /t265_odom_frame"/>
+  <node name="static_tf1" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 /map /odom"/>
+  
+<!-- RVIZ -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find occupancy)/rviz/pointcloud_w_occupancy.rviz" />
+</launch>
