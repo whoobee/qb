@@ -65,15 +65,152 @@ int32_t gyroRight = 0;
 int32_t gyroLeft  = 0;
 #endif  /* (EN_TELEMETRY_DATA == E_TRUE) */
 
+/* Wheel SLOT definition */
+#define FRONT_LEFT_WHEEL  SLOT3
+#define REAR_LEFT_WHEEL   SLOT1
+#define FRONT_RIGHT_WHEEL SLOT4
+#define REAR_RIGHT_WHEEL  SLOT2
+/* Left Side Motor Definition */
+MeEncoderOnBoard frontLeftWheelMotor(FRONT_LEFT_WHEEL);
+MeEncoderOnBoard rearLeftWheelMotor(REAR_LEFT_WHEEL);
+/* Right Side Motor Definition */
+MeEncoderOnBoard frontRightWheelMotor(FRONT_RIGHT_WHEEL);
+MeEncoderOnBoard rearRightWheelMotor(REAR_RIGHT_WHEEL);
 
-MeMegaPiDCMotor rightMotor(PORT1B); /* Right Motor */
-MeMegaPiDCMotor leftMotor(PORT2B);  /* Left Motor */
-int16_t rightMotorSpeed = 0;
-int16_t leftMotorSpeed  = 0;
+
+int16_t rightWheelsSpeed = 0;
+int16_t leftWheelsSpeed  = 0;
+
+typedef enum
+{
+  e_wheel_front_left  = 0,
+  e_wheel_rear_left   = 1,
+  e_wheel_front_right = 2,
+  e_wheel_rear_right  = 3,
+  e_wheels_left       = 4,
+  e_wheels_right      = 5
+}e_wheel_id_t;
 
 /***********************/
 /* Function definitions*/
 /***********************/
+
+/* Encoder Interrupt Handlers */
+void isr_process_wheel_front_left(void)
+{
+  if(digitalRead(frontLeftWheelMotor.getPortB()) == 0)
+  {
+    frontLeftWheelMotor.pulsePosMinus();
+  }
+  else
+  {
+    frontLeftWheelMotor.pulsePosPlus();;
+  }
+}
+
+void isr_process_wheel_rear_left(void)
+{
+  if(digitalRead(rearLeftWheelMotor.getPortB()) == 0)
+  {
+    rearLeftWheelMotor.pulsePosMinus();
+  }
+  else
+  {
+    rearLeftWheelMotor.pulsePosPlus();
+  }
+}
+
+void isr_process_wheel_front_right(void)
+{
+  if(digitalRead(frontRightWheelMotor.getPortB()) == 0)
+  {
+    frontRightWheelMotor.pulsePosMinus();
+  }
+  else
+  {
+    frontRightWheelMotor.pulsePosPlus();
+  }
+}
+
+void isr_process_wheel_rear_right(void)
+{
+  if(digitalRead(rearRightWheelMotor.getPortB()) == 0)
+  {
+    rearRightWheelMotor.pulsePosMinus();
+  }
+  else
+  {
+    rearRightWheelMotor.pulsePosPlus();
+  }
+}
+
+/* Wheel Control */
+void WheelsInit(void)
+{
+  attachInterrupt(frontLeftWheelMotor.getIntNum(),  isr_process_wheel_front_left,  RISING);
+  attachInterrupt(rearLeftWheelMotor.getIntNum(),   isr_process_wheel_rear_left,   RISING);
+  attachInterrupt(frontRightWheelMotor.getIntNum(), isr_process_wheel_front_right, RISING);
+  attachInterrupt(rearRightWheelMotor.getIntNum(),  isr_process_wheel_rear_right,  RISING);
+
+  frontLeftWheelMotor.setPulse(7);
+  rearLeftWheelMotor.setPulse(7);
+  frontRightWheelMotor.setPulse(7);
+  rearRightWheelMotor.setPulse(7);
+  
+  frontLeftWheelMotor.setRatio(35);
+  rearLeftWheelMotor.setRatio(35);
+  frontRightWheelMotor.setRatio(35);
+  rearRightWheelMotor.setRatio(35);
+  
+  frontLeftWheelMotor.setPosPid(1.8,0,0.5);
+  rearLeftWheelMotor.setPosPid(1.8,0,0.5);
+  frontRightWheelMotor.setPosPid(1.8,0,0.5);
+  rearRightWheelMotor.setPosPid(1.8,0,0.5);
+  
+  frontLeftWheelMotor.setSpeedPid(0.18,0,0);
+  rearLeftWheelMotor.setSpeedPid(0.18,0,0);
+  frontRightWheelMotor.setSpeedPid(0.18,0,0);
+  rearRightWheelMotor.setSpeedPid(0.18,0,0);
+}
+
+void WheelMove(e_wheel_id_t wheelId, int16_t wheelSpeed)
+{
+  switch(wheelId)
+  {
+    case e_wheel_front_left:
+    frontLeftWheelMotor.runSpeed(-wheelSpeed);
+    break;
+    case e_wheel_rear_left:
+    rearLeftWheelMotor.runSpeed(-wheelSpeed);
+    break;
+    case e_wheel_front_right:
+    frontRightWheelMotor.runSpeed(-wheelSpeed);
+    break;
+    case e_wheel_rear_right:
+    rearRightWheelMotor.runSpeed(-wheelSpeed);
+    break;
+    case e_wheels_left:
+    frontLeftWheelMotor.runSpeed(-wheelSpeed);
+    rearLeftWheelMotor.runSpeed(-wheelSpeed);
+    break;
+    case e_wheels_right:
+    frontRightWheelMotor.runSpeed(-wheelSpeed);
+    rearRightWheelMotor.runSpeed(-wheelSpeed);
+    break;
+    default:
+    break;
+  }
+}
+
+void WheelProcess(void)
+{
+  frontLeftWheelMotor.loop();
+  rearLeftWheelMotor.loop();
+  frontRightWheelMotor.loop();
+  rearRightWheelMotor.loop();  
+}
+
+
 /* Subscriber Cbk */
 void WheelDataCbk( const mirobot_driver::wheel_control& wheel_data)
 {
@@ -88,7 +225,7 @@ void WheelDataCbk( const mirobot_driver::wheel_control& wheel_data)
   {
     dir = -1;
   }
-  rightMotorSpeed = (dir * (wheel_data.speed_r*2));
+  rightWheelsSpeed = (dir * (wheel_data.speed_r*2));
 
   if(wheel_data.dir_l == 0)
   {
@@ -98,14 +235,17 @@ void WheelDataCbk( const mirobot_driver::wheel_control& wheel_data)
   {
     dir = -1;
   }
-  leftMotorSpeed  = (dir * (wheel_data.speed_l*2));
+  leftWheelsSpeed  = (dir * (wheel_data.speed_l*2));
 
-  //sprintf (tmpbuf, "%03i", rightMotorSpeed);
-  //nh.loginfo("RightMotor = ");
-  //nh.loginfo(tmpbuf);
-  //sprintf (tmpbuf, "%03i", leftMotorSpeed);
-  //nh.loginfo("LeftMotor = ");
-  //nh.loginfo(tmpbuf);
+  sprintf (tmpbuf, "%03i", (wheel_data.speed_r*2));
+  nh.loginfo("RightMotor = ");
+  nh.loginfo(tmpbuf);
+  sprintf (tmpbuf, "%03i", (wheel_data.speed_l*2));
+  nh.loginfo("LeftMotor = ");
+  nh.loginfo(tmpbuf);
+
+  WheelMove(e_wheels_left, leftWheelsSpeed);
+  WheelMove(e_wheels_right, rightWheelsSpeed);
 }
 
 /* pubThread Cbk*/
@@ -133,6 +273,9 @@ void setup()
 #if (EN_TELEMETRY_DATA == E_TRUE)
   gyro.begin();
 #endif  /* #if (EN_TELEMETRY_DATA == E_TRUE) */
+  
+  WheelsInit();
+
   pubThread.onRun(PubCbk);
   pubThread.setInterval(500);
   
@@ -158,8 +301,7 @@ void loop()
     pubThread.run();
   }
 
-  rightMotor.run(-rightMotorSpeed);   /* value: between -255 and 255. */
-  leftMotor.run(leftMotorSpeed);      /* value: between -255 and 255. */
+  WheelProcess();
 
   nh.spinOnce();
   delay(100);
