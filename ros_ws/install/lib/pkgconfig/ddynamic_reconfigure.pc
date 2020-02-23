@@ -1,8 +1,0 @@
-prefix=/home/whoobee/mirobot/ros_ws/install
-
-Name: ddynamic_reconfigure
-Description: Description of ddynamic_reconfigure
-Version: 0.2.2
-Cflags: -I/home/whoobee/mirobot/ros_ws/install/include
-Libs: -L/home/whoobee/mirobot/ros_ws/install/lib -lddynamic_reconfigure
-Requires: roscpp dynamic_reconfigure

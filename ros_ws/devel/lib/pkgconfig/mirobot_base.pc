@@ -1,0 +1,8 @@
+prefix=/home/whoobee/mirobot/ros_ws/devel
+
+Name: mirobot_base
+Description: Description of mirobot_base
+Version: 0.0.1
+Cflags: -I/home/whoobee/mirobot/ros_ws/src/mirobot_base/include
+Libs: -L${prefix}/lib 
+Requires: controller_manager roscpp hardware_interface

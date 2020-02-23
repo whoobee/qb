@@ -1,311 +1,253 @@
-/*
- * MiroBot Driver
- * Motor control and telemetry
- */
 
-/* Threading include */
+/* Debug Configuration */
+#include "Debug.h"
+
+/* HW Configuration */
+#include "ESP32HW.h"
+
+/* Network Driver */
+#include "WiFiHW.h"
+
+/* Motor Driver */
+#include "DCMotor.h"
+
+/* Encoder Driver */
+#include "MagneticEncoder.h"
+
+/* ROS */
+#include <ros.h>
+#include <std_msgs/Float32.h>
+
+/* Scheduler */
 #include <Thread.h>
 
-#define E_TRUE             (1)
-#define E_FALSE            (0)
-
-#define EN_TELEMETRY_DATA  E_FALSE
-
-/* ROS include */
-#include <ros.h>
-#include <std_msgs/String.h>
-#include <mirobot_driver/wheel_control.h>
-#include <mirobot_driver/wheel_telemetry.h>
-#include <mirobot_driver/bot_telemetry.h>
-
-/* Actuators include */
-#include "MeMegaPi.h"
-#include <Wire.h>
-
-/***********************/
-/* Thread definitions  */
-/***********************/
-Thread pubThread = Thread();
+/***************/
+/******WIFI*****/
+/***************/
+char ipAddress[4] = {192,168,0,67};
+WiFiHW *wifi;
 
 
-/***********************/
-/* ROS definitions     */
-/***********************/
-ros::NodeHandle  nh;
+/**************/
+/******ROS*****/
+/**************/
+ros::NodeHandle nh;
+IPAddress *server;
+std_msgs::Float32 pubLeftWheelAngleMsg, pubRightWheelAngleMsg;
+ros::Publisher *pubLeftWheelAngle, *pubRightWheelAngle;
 
-/* ROS Subscriber */
-void WheelDataCbk( const mirobot_driver::wheel_control& wheel_data);
-ros::Subscriber<mirobot_driver::wheel_control> sub("wheel_ctrl", WheelDataCbk );
+void LeftWheelSpeedCbk(const std_msgs::Float32& msg);
+void RightWheelSpeedCbk(const std_msgs::Float32& msg);
+ros::Subscriber<std_msgs::Float32> subLeftWheelSpeed("mirobot/left_wheel_vel", &LeftWheelSpeedCbk);
+ros::Subscriber<std_msgs::Float32> subRightWheelSpeed("mirobot/right_wheel_vel", &RightWheelSpeedCbk);
 
-/* ROS Publisher */
-void PubCbk(void);
 
-#if (EN_TELEMETRY_DATA == E_TRUE)
-mirobot_driver::bot_telemetry bot_tele;
-ros::Publisher bot_telemetry("bot_telemetry", &bot_tele);
+/******************/
+/******ENCODER*****/
+/******************/
+MagneticEncoder *lEncoder, *rEncoder;
+float lNewPosition = 0, lOldPosition = 0;
+float rNewPosition = 0, rOldPosition = 0;
 
-mirobot_driver::wheel_telemetry wheel_tele;
-ros::Publisher wheel_telemetry("wheel_telemetry", &wheel_tele);
-#endif  /* #if (EN_TELEMETRY_DATA == E_TRUE) */
+
+/****************/
+/******MOTOR*****/
+/****************/
+DCMotor *lController, *rController;;
+signed int speedLeft, speedRight;
+
+
+/********************/
+/******SCHEDULER*****/
+/********************/
+#define OTA_THREAD_INTERVAL_MS     (2000u)
+#define ROS_THREAD_INTERVAL_MS     (10u)
+#define ENCODER_THREAD_INTERVAL_MS (10u)
+#define MOTOR_THREAD_INTERVAL_MS   (100u)
+
+Thread OTAThread     = Thread();
+Thread ROSThread     = Thread();
+Thread ENCODERThread = Thread();
+Thread MOTORThread   = Thread();
+
+void MOTORThreadCbk(void);
+void ENCODERThreadCbk(void);
+void OTAThreadCbk(void);
+void ROSThreadCbk(void);
+
+void SchedulerInit(void)
+{
+  OTAThread.onRun(OTAThreadCbk);
+  OTAThread.setInterval(OTA_THREAD_INTERVAL_MS);
+
+  ROSThread.onRun(ROSThreadCbk);
+  ROSThread.setInterval(ROS_THREAD_INTERVAL_MS);
+
+  ENCODERThread.onRun(ENCODERThreadCbk);
+  ENCODERThread.setInterval(ENCODER_THREAD_INTERVAL_MS);
+
+  MOTORThread.onRun(MOTORThreadCbk);
+  MOTORThread.setInterval(MOTOR_THREAD_INTERVAL_MS);
+}
+
+void SchedulerSpin(void)
+{
+  if(OTAThread.shouldRun()) OTAThread.run();
+  if(ROSThread.shouldRun()) ROSThread.run();
+  if(ENCODERThread.shouldRun()) ENCODERThread.run();
+  if(MOTORThread.shouldRun()) MOTORThread.run();
+}
+
+void MOTORThreadCbk(void)
+{
+  lController->control(speedLeft);
+  rController->control(speedRight);
+}
+
+float ENCODERCalculateVel(float currentPosition, float *newPosition, float *oldPosition, float timeInterval, float calibrationOffset)
+{
+  float ret_vel;
+  float pos;
+
+  *oldPosition = *newPosition;
+  *newPosition = currentPosition;
+  
+  if(*oldPosition <= *newPosition)
+  {
+    pos = *newPosition - *oldPosition;
+  }
+  else
+  {
+    pos = *newPosition + (2*PI) - *oldPosition;
+  }
+  
+  if(pos != 0.0f)
+  {
+    ret_vel = (pos/timeInterval) - calibrationOffset;
+  }
+  else
+  {
+    ret_vel = 0.0f;
+  }
+
+  return ret_vel;
+}
+
+
+void ENCODERThreadCbk(void)
+{
+  float pos;
+
+  //pubLeftWheelAngleMsg.data = ENCODERCalculateVel(lEncoder->GetAngle(), &lNewPosition, &lOldPosition, 0.2f, 0.3f);
+  //pubRightWheelAngleMsg.data = ENCODERCalculateVel(rEncoder->GetAngle(), &rNewPosition, &rOldPosition, 0.2f, 0.0f);
+
+  pubRightWheelAngleMsg.data = rEncoder->GetAngle();
+  pubLeftWheelAngleMsg.data  = lEncoder->GetAngle();
+  
+  if(DEBUG)Serial.print(": Left Encoder Angle = ");
+  if(DEBUG)Serial.print(pubLeftWheelAngleMsg.data);
+  if(DEBUG)Serial.print(" : Right Encoder Angle = ");
+  if(DEBUG)Serial.println(pubRightWheelAngleMsg.data);
+  if(DEBUG)Serial.println();
+}
+
+void OTAThreadCbk(void)
+{
+  wifi->OTAHandling();
+}
+
+void ROSThreadCbk(void)
+{
+  if (nh.connected()) 
+  {
+    pubRightWheelAngle->publish(&pubRightWheelAngleMsg);
+    pubLeftWheelAngle->publish(&pubLeftWheelAngleMsg);
+  }
+  else 
+  {
+    if(DEBUG)Serial.println("Not Connected");
+  }
+
+  /* Handle ROS spin */
+  nh.spinOnce();
+}
+
 
 /************************/
-/* Makeblock definitions*/
+/******ROS Callbacks*****/
 /************************/
-#if (EN_TELEMETRY_DATA == E_TRUE)
-MeGyro gyro;
-
-int32_t gyroX = 0;
-int32_t gyroY = 0;
-int32_t gyroZ = 0;
-int32_t accX  = 0;
-int32_t accY  = 0;
-int32_t accZ  = 0;
-
-int32_t gyroRight = 0;
-int32_t gyroLeft  = 0;
-#endif  /* (EN_TELEMETRY_DATA == E_TRUE) */
-
-/* Wheel SLOT definition */
-#define FRONT_LEFT_WHEEL  SLOT3
-#define REAR_LEFT_WHEEL   SLOT1
-#define FRONT_RIGHT_WHEEL SLOT4
-#define REAR_RIGHT_WHEEL  SLOT2
-/* Left Side Motor Definition */
-MeEncoderOnBoard frontLeftWheelMotor(FRONT_LEFT_WHEEL);
-MeEncoderOnBoard rearLeftWheelMotor(REAR_LEFT_WHEEL);
-/* Right Side Motor Definition */
-MeEncoderOnBoard frontRightWheelMotor(FRONT_RIGHT_WHEEL);
-MeEncoderOnBoard rearRightWheelMotor(REAR_RIGHT_WHEEL);
-
-
-int16_t rightWheelsSpeed = 0;
-int16_t leftWheelsSpeed  = 0;
-
-typedef enum
+void ROSInit(void)
 {
-  e_wheel_front_left  = 0,
-  e_wheel_rear_left   = 1,
-  e_wheel_front_right = 2,
-  e_wheel_rear_right  = 3,
-  e_wheels_left       = 4,
-  e_wheels_right      = 5
-}e_wheel_id_t;
+  /* Set the connection to rosserial socket server */
+  server = new IPAddress(ipAddress[0], ipAddress[1], ipAddress[2], ipAddress[3]);
+  nh.getHardware()->setConnection(*server, 11411);
+  nh.initNode();
 
-/***********************/
-/* Function definitions*/
-/***********************/
+  /* Advertize the Encoder publishers */
+  pubLeftWheelAngle = new ros::Publisher("mirobot/left_wheel_angle", &pubLeftWheelAngleMsg);
+  pubRightWheelAngle = new ros::Publisher("mirobot/right_wheel_angle", &pubRightWheelAngleMsg);
+  nh.advertise(*pubLeftWheelAngle);
+  nh.advertise(*pubRightWheelAngle);
 
-/* Encoder Interrupt Handlers */
-void isr_process_wheel_front_left(void)
-{
-  if(digitalRead(frontLeftWheelMotor.getPortB()) == 0)
-  {
-    frontLeftWheelMotor.pulsePosMinus();
-  }
-  else
-  {
-    frontLeftWheelMotor.pulsePosPlus();;
-  }
+  /* Define and subscribe the motor subscribers */
+  nh.subscribe(subLeftWheelSpeed);
+  nh.subscribe(subRightWheelSpeed);
 }
 
-void isr_process_wheel_rear_left(void)
+int mapToInt(float val) 
 {
-  if(digitalRead(rearLeftWheelMotor.getPortB()) == 0)
-  {
-    rearLeftWheelMotor.pulsePosMinus();
-  }
-  else
-  {
-    rearLeftWheelMotor.pulsePosPlus();
-  }
-}
-
-void isr_process_wheel_front_right(void)
-{
-  if(digitalRead(frontRightWheelMotor.getPortB()) == 0)
-  {
-    frontRightWheelMotor.pulsePosMinus();
-  }
-  else
-  {
-    frontRightWheelMotor.pulsePosPlus();
-  }
-}
-
-void isr_process_wheel_rear_right(void)
-{
-  if(digitalRead(rearRightWheelMotor.getPortB()) == 0)
-  {
-    rearRightWheelMotor.pulsePosMinus();
-  }
-  else
-  {
-    rearRightWheelMotor.pulsePosPlus();
-  }
-}
-
-/* Wheel Control */
-void WheelsInit(void)
-{
-  attachInterrupt(frontLeftWheelMotor.getIntNum(),  isr_process_wheel_front_left,  RISING);
-  attachInterrupt(rearLeftWheelMotor.getIntNum(),   isr_process_wheel_rear_left,   RISING);
-  attachInterrupt(frontRightWheelMotor.getIntNum(), isr_process_wheel_front_right, RISING);
-  attachInterrupt(rearRightWheelMotor.getIntNum(),  isr_process_wheel_rear_right,  RISING);
-
-  frontLeftWheelMotor.setPulse(7);
-  rearLeftWheelMotor.setPulse(7);
-  frontRightWheelMotor.setPulse(7);
-  rearRightWheelMotor.setPulse(7);
+  int mVal = 0;
   
-  frontLeftWheelMotor.setRatio(35);
-  rearLeftWheelMotor.setRatio(35);
-  frontRightWheelMotor.setRatio(35);
-  rearRightWheelMotor.setRatio(35);
-  
-  frontLeftWheelMotor.setPosPid(1.8,0,0.5);
-  rearLeftWheelMotor.setPosPid(1.8,0,0.5);
-  frontRightWheelMotor.setPosPid(1.8,0,0.5);
-  rearRightWheelMotor.setPosPid(1.8,0,0.5);
-  
-  frontLeftWheelMotor.setSpeedPid(0.18,0,0);
-  rearLeftWheelMotor.setSpeedPid(0.18,0,0);
-  frontRightWheelMotor.setSpeedPid(0.18,0,0);
-  rearRightWheelMotor.setSpeedPid(0.18,0,0);
+  /* map(val, 0.0f, 1.0f, 0u, 255u) is buggy.. therfore do it the old fashion way */
+  if (val >= 1.0f) mVal = 255;
+  else if (val <= -1) mVal = -255;
+  else mVal = (int)(val*255);
+
+  return mVal;
 }
 
-void WheelMove(e_wheel_id_t wheelId, int16_t wheelSpeed)
+void LeftWheelSpeedCbk(const std_msgs::Float32& msg) 
 {
-  switch(wheelId)
-  {
-    case e_wheel_front_left:
-    frontLeftWheelMotor.runSpeed(-wheelSpeed);
-    break;
-    case e_wheel_rear_left:
-    rearLeftWheelMotor.runSpeed(-wheelSpeed);
-    break;
-    case e_wheel_front_right:
-    frontRightWheelMotor.runSpeed(-wheelSpeed);
-    break;
-    case e_wheel_rear_right:
-    rearRightWheelMotor.runSpeed(-wheelSpeed);
-    break;
-    case e_wheels_left:
-    frontLeftWheelMotor.runSpeed(-wheelSpeed);
-    rearLeftWheelMotor.runSpeed(-wheelSpeed);
-    break;
-    case e_wheels_right:
-    frontRightWheelMotor.runSpeed(-wheelSpeed);
-    rearRightWheelMotor.runSpeed(-wheelSpeed);
-    break;
-    default:
-    break;
-  }
+  speedLeft = mapToInt(msg.data);
+  //if(DEBUG)Serial.print("Left Motor Speed = ");
+  //if(DEBUG)Serial.println(speedLeft);
 }
 
-void WheelProcess(void)
+void RightWheelSpeedCbk(const std_msgs::Float32& msg) 
 {
-  frontLeftWheelMotor.loop();
-  rearLeftWheelMotor.loop();
-  frontRightWheelMotor.loop();
-  rearRightWheelMotor.loop();  
+  speedRight = mapToInt(msg.data);
+  //if(DEBUG)Serial.print("Right Motor Speed = ");
+  //if(DEBUG)Serial.println(speedRight);
 }
 
 
-/* Subscriber Cbk */
-void WheelDataCbk( const mirobot_driver::wheel_control& wheel_data)
-{
-  char    tmpbuf [4];
-  int16_t dir = 1;
-  
-  if(wheel_data.dir_r == 0)
-  {
-    dir = 1;
-  }
-  else
-  {
-    dir = -1;
-  }
-  rightWheelsSpeed = (dir * (wheel_data.speed_r*2));
-
-  if(wheel_data.dir_l == 0)
-  {
-    dir = 1;
-  }
-  else
-  {
-    dir = -1;
-  }
-  leftWheelsSpeed  = (dir * (wheel_data.speed_l*2));
-
-  sprintf (tmpbuf, "%03i", (wheel_data.speed_r*2));
-  nh.loginfo("RightMotor = ");
-  nh.loginfo(tmpbuf);
-  sprintf (tmpbuf, "%03i", (wheel_data.speed_l*2));
-  nh.loginfo("LeftMotor = ");
-  nh.loginfo(tmpbuf);
-
-  WheelMove(e_wheels_left, leftWheelsSpeed);
-  WheelMove(e_wheels_right, rightWheelsSpeed);
-}
-
-/* pubThread Cbk*/
-void PubCbk(void)
-{
-#if (EN_TELEMETRY_DATA == E_TRUE)
-  bot_tele.id = 0;
-  bot_tele.gyro_x = gyroX;
-  bot_tele.gyro_y = gyroY;
-  bot_tele.gyro_z = gyroZ;
-  bot_tele.acc_x  = accX;
-  bot_tele.acc_y  = accY;
-  bot_tele.acc_z  = accZ;
-  bot_telemetry.publish( &bot_tele );
-
-  wheel_tele.speed_r = gyroRight;
-  wheel_tele.speed_l = gyroLeft;
-  wheel_telemetry.publish( &wheel_tele );
-#endif  /* #if (EN_TELEMETRY_DATA == E_TRUE) */
-}
-
-/* Init function */
+/***************/
+/******INIT*****/
+/***************/
 void setup()
 {
-#if (EN_TELEMETRY_DATA == E_TRUE)
-  gyro.begin();
-#endif  /* #if (EN_TELEMETRY_DATA == E_TRUE) */
+  if(DEBUG)Serial.begin(115200);
   
-  WheelsInit();
+  /* Init WiFi an OTA */
+  wifi = new WiFiHW("NamNet", "U455h0le00", true);
 
-  pubThread.onRun(PubCbk);
-  pubThread.setInterval(500);
-  
-  nh.initNode();
-#if (EN_TELEMETRY_DATA == E_TRUE)
-  nh.advertise(bot_telemetry);
-#endif
-  nh.subscribe(sub);
+  /* Init ROS */
+  ROSInit();
+
+  SchedulerInit();
+
+  lEncoder = new MagneticEncoder(LW_ENCODER_A, LW_ENCODER_B, (ENCODER_2PI_STEPS/2), LEFT, ZERO_TO_2PI);
+  rEncoder = new MagneticEncoder(RW_ENCODER_A, RW_ENCODER_B, (ENCODER_2PI_STEPS/2), RIGHT, ZERO_TO_2PI);
+
+  lController = new DCMotor( IN1, AN1);
+  rController = new DCMotor( IN2, AN2);
 }
 
-/* Main handler */
+
+/********************/
+/******MAIN LOOP*****/
+/********************/
 void loop()
 {
-#if (EN_TELEMETRY_DATA == E_TRUE)
-  gyro.update();
-  gyroX = gyro.getAngleX();
-  gyroY = gyro.getAngleY();
-  gyroZ = gyro.getAngleZ();
-#endif  /* #if (EN_TELEMETRY_DATA == E_TRUE) */  
-  // checks if the publisher thread should run
-  if(pubThread.shouldRun())
-  {
-    pubThread.run();
-  }
-
-  WheelProcess();
-
-  nh.spinOnce();
-  delay(100);
+  SchedulerSpin();
 }
-
-
-/* EOF */

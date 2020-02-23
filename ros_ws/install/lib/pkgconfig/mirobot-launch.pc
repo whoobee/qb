@@ -1,8 +1,0 @@
-prefix=/home/whoobee/mirobot/ros_ws/install
-
-Name: mirobot-launch
-Description: Description of mirobot-launch
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/whoobee/mirobot/ros_ws/install/lib 
-Requires: 

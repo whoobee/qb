@@ -1,0 +1,8 @@
+prefix=/home/whoobee/mirobot/ros_ws/devel
+
+Name: esp32_peripherals
+Description: Description of esp32_peripherals
+Version: 0.0.1
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
