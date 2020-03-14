@@ -1,2 +1,2 @@
-mirobot_base:mirobot_control:mirobot_description:mirobot_gazebo:mirobot_navigation:mirobot_scripts/arduino_scripts/arduino_peripherals:mirobot_scripts/esp32_scripts/esp32_peripherals:ydlidar_ros
+mirobot_base:mirobot_control:mirobot_description:mirobot_gazebo:mirobot_navigation:odrive_ros:ydlidar_ros
 -DCATKIN_DEVEL_PREFIX=/home/whoobee/mirobot/ros_ws/devel -DCMAKE_INSTALL_PREFIX=/home/whoobee/mirobot/ros_ws/install -G Unix Makefiles

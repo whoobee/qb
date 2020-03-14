@@ -7,8 +7,4 @@
 # new environment variables
 
 # modified environment variables
-export CMAKE_PREFIX_PATH="/home/whoobee/mirobot/ros_ws/devel:$CMAKE_PREFIX_PATH"
-export LD_LIBRARY_PATH="/opt/ros/melodic/lib:/usr/local/lib"
 export PWD="/home/whoobee/mirobot/ros_ws/build"
-export ROSLISP_PACKAGE_DIRECTORIES="/home/whoobee/mirobot/ros_ws/devel/share/common-lisp"
-export ROS_PACKAGE_PATH="/home/whoobee/mirobot/ros_ws/src:$ROS_PACKAGE_PATH"

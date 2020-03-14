@@ -9,15 +9,15 @@ mobile_base_controller:
   # Wheel separation and diameter. These are both optional.
   # diff_drive_controller will attempt to read either one or both from the
   # URDF if not specified as a parameter
-  wheel_separation : 0.565 # meters 
+  wheel_separation : 0.265 # meters 
   wheel_radius : 0.065    # meters
 
   # Wheel separation and radius multipliers
-  wheel_separation_multiplier: 12.0 # default: 1.0
-  wheel_radius_multiplier    : 12.0 # default: 1.0
+  wheel_separation_multiplier: 1.0 # default: 1.0
+  wheel_radius_multiplier    : 1.0 # default: 1.0
 
   # Velocity commands timeout [s], default 0.5
-  cmd_vel_timeout: 0.25
+  cmd_vel_timeout: 10.25
 
   # Base frame_id
   base_frame_id: base_footprint #default: base_link
@@ -52,3 +52,21 @@ odom_frame_id: odom
 # Publish the velocity command to be executed. 
 # It is to monitor the effect of limiters on the controller input.
 publish_cmd: true
+
+# Publish all joint states -----------------------------------
+# Creates the /joint_states topic necessary in ROS
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50  
+
+# Effort Controllers ---------------------------------------
+leftWheel_effort_controller:
+  type: effort_controllers/JointEffortController
+  joint: wheel_0_joint
+  #pid: {p: 10.0, i: 0.0, d: 0.0}
+  pid: {p: 100, i: 0.1, d: 10.0}
+rightWheel_effort_controller:
+  type: effort_controllers/JointEffortController
+  joint: wheel_1_joint
+  #pid: {p: 10.0, i: 0.0, d: 0.0}
+  pid: {p: 100, i: 0.1, d: 10.0}

@@ -740,6 +740,12 @@ controller_manager_msgs_DIR:PATH=/opt/ros/melodic/share/controller_manager_msgs/
 //The directory containing a CMake configuration file for cpp_common.
 cpp_common_DIR:PATH=/opt/ros/melodic/share/cpp_common/cmake
 
+//The directory containing a CMake configuration file for diagnostic_msgs.
+diagnostic_msgs_DIR:PATH=/opt/ros/melodic/share/diagnostic_msgs/cmake
+
+//The directory containing a CMake configuration file for diagnostic_updater.
+diagnostic_updater_DIR:PATH=/opt/ros/melodic/share/diagnostic_updater/cmake
+
 //Value Computed by CMake
 esp32_peripherals_BINARY_DIR:STATIC=/home/whoobee/mirobot/ros_ws/build/mirobot_scripts/esp32_scripts/esp32_peripherals
 
@@ -902,6 +908,12 @@ mirobot_navigation_SOURCE_DIR:STATIC=/home/whoobee/mirobot/ros_ws/src/mirobot_na
 
 //The directory containing a CMake configuration file for nav_msgs.
 nav_msgs_DIR:PATH=/opt/ros/melodic/share/nav_msgs/cmake
+
+//Value Computed by CMake
+odrive_ros_BINARY_DIR:STATIC=/home/whoobee/mirobot/ros_ws/build/odrive_ros
+
+//Value Computed by CMake
+odrive_ros_SOURCE_DIR:STATIC=/home/whoobee/mirobot/ros_ws/src/odrive_ros
 
 //Path to a library.
 onelib:FILEPATH=/usr/lib/aarch64-linux-gnu/libsdformat.so
@@ -1317,7 +1329,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=12
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=11
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

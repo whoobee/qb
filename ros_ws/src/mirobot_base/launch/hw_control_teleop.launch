@@ -1,0 +1,46 @@
+<!-- https://answers.ros.org/question/221093/basic-diff_drive-question/ -->
+<!-- https://github.com/ros-controls/ros_controllers/tree/kinetic-devel/diff_drive_controller/test -->
+
+<launch>
+
+      <!-- Load robot model -->
+      <param name="robot_description"
+            command="$(find xacro)/xacro '$(find mirobot_description)/urdf/mirobot.xacro' --inorder"/>
+
+      <node name="mirobot_base_node" 
+            pkg="mirobot_base" 
+            type="mirobot_base_node"/>
+
+      <!-- Load controller config -->
+      <rosparam command="load" 
+                  file="$(find mirobot_control)/config/mirobot_common.yaml"/>
+
+      <node 
+            pkg  = "joy" 
+            type = "joy_node" 
+            name = "joy"
+            args = "_autorepeat_rate:=0.01 ">
+      </node>
+
+     <node
+  		pkg  = "teleop_twist_joy" 
+	  	type = "teleop_node" 
+	  	name = "teleop_twist_joy"
+            args = "_scale_linear:=0.08 _scale_angular:=0.2">
+            <remap from="cmd_vel" 
+                 to="mobile_base_controller/cmd_vel"/>
+      </node>
+
+      <node name="controller_spawner" 
+            pkg="controller_manager" 
+            type="spawner" 
+            output="screen" 
+            args="mobile_base_controller"/> 
+
+      <node 
+            pkg  = "rosserial_python" 
+            type = "serial_node.py" 
+            name = "serial_node"
+            args = "tcp"/>
+
+</launch>

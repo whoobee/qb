@@ -12,7 +12,7 @@
           type="slam_gmapping">
 
           <rosparam file="$(find mirobot_navigation)/config/slam_gmapping_params.yaml" />
-          <remap from="scan" to="/mirobot/laser/scan" />
+          <!--<remap from="scan" to="scan" />-->
 
     </node>
 

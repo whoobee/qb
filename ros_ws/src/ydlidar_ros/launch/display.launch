@@ -19,7 +19,7 @@
     pkg="robot_state_publisher"
     type="state_publisher" />
  <node name="ydlidar_node"  pkg="ydlidar"  type="ydlidar_node" output="screen">
-    <param name="port"         type="string" value="/dev/ydlidar"/>  
+    <param name="port"         type="string" value="/dev/ttyUSB0"/>  
     <param name="baudrate"     type="int"    value="115200"/>
     <param name="frame_id"     type="string" value="laser_frame"/>
     <param name="angle_fixed"  type="bool"   value="true"/>

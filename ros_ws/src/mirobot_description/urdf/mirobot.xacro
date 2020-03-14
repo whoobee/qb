@@ -104,8 +104,8 @@
 
 
 
-	<wheel lr="left" tY="-1"/>
-	<wheel lr="right" tY="1"/>
+	<wheel lr="0" tY="-1"/>
+	<wheel lr="1" tY="1"/>
 
 
 	<!-- Sensor models -->

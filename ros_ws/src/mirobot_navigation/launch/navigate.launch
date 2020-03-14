@@ -1,7 +1,7 @@
 <launch>
 
-    <arg name="cmd_vel_topic" default="mirobot/cmd_vel"/>
-    <arg name="odom_topic" default="mirobot/odom" /> 
+    <arg name="cmd_vel_topic" default="cmd_vel"/>
+    <arg name="odom_topic" default="odrive/odom" /> 
 
     <arg name="rvizconfig"
          default="$(find mirobot_description)/rviz/navigation.rviz"/>
