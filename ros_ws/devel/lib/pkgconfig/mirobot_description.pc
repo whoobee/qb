@@ -1,8 +1,0 @@
-prefix=/home/whoobee/mirobot/ros_ws/devel
-
-Name: mirobot_description
-Description: Description of mirobot_description
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
