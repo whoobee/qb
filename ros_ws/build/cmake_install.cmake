@@ -130,12 +130,11 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
+  include("/home/whoobee/mirobot/ros_ws/build/mirobot/cmake_install.cmake")
   include("/home/whoobee/mirobot/ros_ws/build/mirobot_gazebo/cmake_install.cmake")
   include("/home/whoobee/mirobot/ros_ws/build/realsense-ros/realsense2_description/cmake_install.cmake")
   include("/home/whoobee/mirobot/ros_ws/build/odrive_ros/cmake_install.cmake")
   include("/home/whoobee/mirobot/ros_ws/build/ddynamic_reconfigure/cmake_install.cmake")
-  include("/home/whoobee/mirobot/ros_ws/build/mirobot_base/cmake_install.cmake")
-  include("/home/whoobee/mirobot/ros_ws/build/mirobot_control/cmake_install.cmake")
   include("/home/whoobee/mirobot/ros_ws/build/realsense-ros/realsense2_camera/cmake_install.cmake")
   include("/home/whoobee/mirobot/ros_ws/build/mirobot_navigation/cmake_install.cmake")
   include("/home/whoobee/mirobot/ros_ws/build/mirobot_description/cmake_install.cmake")

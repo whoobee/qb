@@ -1,0 +1,29 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+    <!-- Start Odrive Nodes -->
+    <include file="$(find mirobot)/launch/base/odrive.launch" />
+    <include file="$(find mirobot)/launch/base/teleop.launch" />
+    <!-- Start YDLidar Nodes -->
+    <include file="$(find mirobot)/launch/lidar/X4.launch" />
+    <!-- Start Realsense Nodes -->
+    <include file="$(find mirobot)/launch/camera/rs_t265.launch" />
+    <!-- Start Robot State Description Nodes -->
+    <include file="$(find mirobot_description)/launch/mirobot_description.launch" />
+    <!-- Start Navigation Nodes -->
+    <!-- <include file="$(find mirobot)/launch/navigation/gmapping_slam.launch" /> -->
+    <include file="$(find mirobot)/launch/navigation/amcl.launch" />
+    <include file="$(find mirobot)/launch/navigation/move_base.launch" />
+
+    <!-- Remap frames -->
+    <remap from="/camera/odom" to="/odom"/>
+    <remap from="/laser_frame" to="/lidar_link"/>
+    
+    <!-- 
+    <node pkg="tf" type="static_transform_publisher" name="odom_to_base_link"
+    args="0. 0.0 0.0 0.0 0.0  0.0 /odom /base_link 200" />
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser"
+    args="-0.2245 0.0 0.2 0.0 0.0  0.0 /base_link /laser_frame 200" />
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_camera"
+    args="-0.2245 0.0 0.2 0.0 0.0  0.0 /base_link /camera_odom_frame 200" />
+     -->
+</launch>

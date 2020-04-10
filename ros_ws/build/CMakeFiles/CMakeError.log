@@ -1,23 +1,23 @@
 Determining if the pthread_create exist failed with the following output:
 Change Dir: /home/whoobee/mirobot/ros_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_6f2d1/fast"
-/usr/bin/make -f CMakeFiles/cmTC_6f2d1.dir/build.make CMakeFiles/cmTC_6f2d1.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_048ae/fast"
+/usr/bin/make -f CMakeFiles/cmTC_048ae.dir/build.make CMakeFiles/cmTC_048ae.dir/build
 make[1]: Entering directory '/home/whoobee/mirobot/ros_ws/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_6f2d1.dir/CheckSymbolExists.c.o
-/usr/bin/cc    -o CMakeFiles/cmTC_6f2d1.dir/CheckSymbolExists.c.o   -c /home/whoobee/mirobot/ros_ws/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
-Linking C executable cmTC_6f2d1
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6f2d1.dir/link.txt --verbose=1
-/usr/bin/cc      -rdynamic CMakeFiles/cmTC_6f2d1.dir/CheckSymbolExists.c.o  -o cmTC_6f2d1 
-CMakeFiles/cmTC_6f2d1.dir/CheckSymbolExists.c.o: In function `main':
+Building C object CMakeFiles/cmTC_048ae.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_048ae.dir/CheckSymbolExists.c.o   -c /home/whoobee/mirobot/ros_ws/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_048ae
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_048ae.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_048ae.dir/CheckSymbolExists.c.o  -o cmTC_048ae 
+CMakeFiles/cmTC_048ae.dir/CheckSymbolExists.c.o: In function `main':
 CheckSymbolExists.c:(.text+0x14): undefined reference to `pthread_create'
 CheckSymbolExists.c:(.text+0x18): undefined reference to `pthread_create'
 collect2: error: ld returned 1 exit status
-CMakeFiles/cmTC_6f2d1.dir/build.make:97: recipe for target 'cmTC_6f2d1' failed
-make[1]: *** [cmTC_6f2d1] Error 1
+CMakeFiles/cmTC_048ae.dir/build.make:97: recipe for target 'cmTC_048ae' failed
+make[1]: *** [cmTC_048ae] Error 1
 make[1]: Leaving directory '/home/whoobee/mirobot/ros_ws/build/CMakeFiles/CMakeTmp'
-Makefile:126: recipe for target 'cmTC_6f2d1/fast' failed
-make: *** [cmTC_6f2d1/fast] Error 2
+Makefile:126: recipe for target 'cmTC_048ae/fast' failed
+make: *** [cmTC_048ae/fast] Error 2
 
 File /home/whoobee/mirobot/ros_ws/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
 /* */
@@ -37,20 +37,20 @@ int main(int argc, char** argv)
 Determining if the function pthread_create exists in the pthreads failed with the following output:
 Change Dir: /home/whoobee/mirobot/ros_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_ab080/fast"
-/usr/bin/make -f CMakeFiles/cmTC_ab080.dir/build.make CMakeFiles/cmTC_ab080.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_1c55e/fast"
+/usr/bin/make -f CMakeFiles/cmTC_1c55e.dir/build.make CMakeFiles/cmTC_1c55e.dir/build
 make[1]: Entering directory '/home/whoobee/mirobot/ros_ws/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_ab080.dir/CheckFunctionExists.c.o
-/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_ab080.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
-Linking C executable cmTC_ab080
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ab080.dir/link.txt --verbose=1
-/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_ab080.dir/CheckFunctionExists.c.o  -o cmTC_ab080 -lpthreads 
+Building C object CMakeFiles/cmTC_1c55e.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_1c55e.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_1c55e
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1c55e.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_1c55e.dir/CheckFunctionExists.c.o  -o cmTC_1c55e -lpthreads 
 /usr/bin/ld: cannot find -lpthreads
 collect2: error: ld returned 1 exit status
-CMakeFiles/cmTC_ab080.dir/build.make:97: recipe for target 'cmTC_ab080' failed
-make[1]: *** [cmTC_ab080] Error 1
+CMakeFiles/cmTC_1c55e.dir/build.make:97: recipe for target 'cmTC_1c55e' failed
+make[1]: *** [cmTC_1c55e] Error 1
 make[1]: Leaving directory '/home/whoobee/mirobot/ros_ws/build/CMakeFiles/CMakeTmp'
-Makefile:126: recipe for target 'cmTC_ab080/fast' failed
-make: *** [cmTC_ab080/fast] Error 2
+Makefile:126: recipe for target 'cmTC_1c55e/fast' failed
+make: *** [cmTC_1c55e/fast] Error 2
 
 
