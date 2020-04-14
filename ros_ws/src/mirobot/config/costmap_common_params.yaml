@@ -11,45 +11,14 @@ footprint: [[-0.10, 0.30], [0.33, 0.30], [0.33, -0.30], [-0.10, -0.30]]
 # planning paths.
 inflation_radius: 0.35  
 # exponential rate at which the obstacle cost drops off (default: 10)
-cost_scaling_factor: 5  
+cost_scaling_factor: 3
 
-# voxel map configuration; z-voxels 0 are filled by bumpers and 1 by
-# laser scan (kinect)
-map_type: voxel
-origin_z: 0.0
-z_resolution: 0.2
-z_voxels: 2
-publish_voxel_map: false
-
-observation_sources: scan #bump
-#observation_sources: scan
-
-# scan: {
-#        data_type: LaserScan, 
-#        topic: scan, 
-#        marking: true, 
-#        clearing: true, 
-#        min_obstacle_height: 0.25, 
-#        max_obstacle_height: 0.35
-#        }
-# Our lasers (Xtion and fake) either needs to publish a height,
-# or set min_obstacle_height to 0.0:
-# http://wiki.ros.org/navigation/Troubleshooting#Missing_Obstacles_in_Costmap2D
-# Note that the max_obstacle_height is very important too!
+map_type: costmap
+observation_sources: scan
 scan: {
-        data_type: LaserScan,
-        topic: scan,
-        marking: true,
-        clearing: true,
-        min_obstacle_height: 0.5,
-        max_obstacle_height: 2
-      }
-# Can we just set up two of these here?
-#bump: {
-#        data_type: PointCloud2, 
-#        topic: mobile_base/sensors/bumper_pointcloud, 
-#        marking: true, 
-#        clearing: false, 
-#        min_obstacle_height: 0.0, 
-#        max_obstacle_height: 0.15
-#      }
+  sensor_frame: lidar_link, 
+  data_type: LaserScan, 
+  topic: scan, 
+  marking: true, 
+  clearing: true
+  }
