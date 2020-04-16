@@ -9,7 +9,13 @@
     <script type="text/javascript" src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
     <script type="text/javascript" src="https://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
     <script type="text/javascript" src="https://static.robotwebtools.org/ros2djs/current/ros2d.min.js"></script>
-    <script type="text/javascript" src="js-scripts/nav2djs.min.js"></script>
+
+    <script type="text/javascript" src="js-scripts/nav2djs/Nav2D.js"></script>
+    <script type="text/javascript" src="js-scripts/nav2djs/Navigator.js"></script>
+    <script type="text/javascript" src="js-scripts/nav2djs/OccupancyGridClientNav.js"></script>
+    <script type="text/javascript" src="js-scripts/nav2djs/ImageMapClientNav.js"></script>
+    <!-- <script type="text/javascript" src="js-scripts/nav2djs.min.js"></script> -->
+
     <!-- Vuejs -->
     <script src="https://cdn.jsdelivr.net/npm/vue">
 
@@ -42,6 +48,10 @@
                         <div id="map"></div>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-12 col-sm-6 text-center">
+                <br>
+                <button :disabled="loading" class="btn btn-danger" @click="stop_nav">STOP!</button>
             </div>
         </div>
     </div>

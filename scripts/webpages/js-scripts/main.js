@@ -9,8 +9,10 @@ var app = new Vue({
         rosbridge_address: 'ws://192.168.0.67:9090',
         port: '9090',
         mapViewer: null,
-        mapGridClient: null,
+        mapGridClientNav: null,
         interval: null,
+        nav_cancel_topic: null,
+        tf_client: null,
     },
     // helper methods to connect to ROS
     methods: {
@@ -30,19 +32,28 @@ var app = new Vue({
                     height: 480
                 })
 
+                this.tfClient = new ROSLIB.Topic({
+                    ros : this.ros,
+                    name : '/tf',
+                    messageType : 'tf2_msgs/TFMessage'
+                  });
+
                 // Setup the map client.
-                this.mapGridClient = NAV2D.OccupancyGridClientNav({
+                this.mapGridClientNav = NAV2D.OccupancyGridClientNav({
                     ros: this.ros,
                     rootObject: this.mapViewer.scene,
                     viewer : this.mapViewer,
                     serverName : '/move_base',
+                    image: 'mirobot.png',
+                    withOrientation: true,
+                    tfClient: this.tfClient,
                 })
-                // Scale the canvas to fit to the map
-                /*this.mapGridClient.on('change', () => {
-                    this.mapViewer.scaleToDimensions(this.mapGridClient.currentGrid.width, this.mapGridClient.currentGrid.height);
-                    this.mapViewer.shift(this.mapGridClient.currentGrid.pose.position.x, this.mapGridClient.currentGrid.pose.position.y)
-                })*/
 
+                this.nav_cancel_topic = new ROSLIB.Topic({
+                    ros : this.ros,
+                    name : '/move_base/cancel',
+                    messageType : 'actionlib_msgs/GoalID'
+                  });
             })
             this.ros.on('error', (error) => {
                 this.logs.unshift((new Date()).toTimeString() + ` - Error: ${error}`)
@@ -53,6 +64,34 @@ var app = new Vue({
                 this.loading = false
                 document.getElementById('map').innerHTML = ''
             })
+
+
+            // Get the URDF value from ROS.
+            var param = new ROSLIB.Param({
+                ros : this.ros,
+                name : 'robot_description'
+            });
+  
+            param.get(function(param) {
+                // Setup the loader for the URDF.
+                var urdfModel = new ROSLIB.UrdfModel({
+                string : param
+                });
+  
+            console.log(urdfModel);
+            });
+
+
+        },
+        stop_nav: function() {
+            var cancel_goal = new ROSLIB.Message({
+                stamp : {
+                  secs : 0,
+                  nsecs : 0
+                },
+                id : ""
+                });
+                this.nav_cancel_topic.publish(cancel_goal);
         },
         disconnect: function() {
             this.ros.close()

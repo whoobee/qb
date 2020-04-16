@@ -52,7 +52,7 @@ NAV2D.OccupancyGridClientNav = function(options) {
     robot_pose : robot_pose,
     rootObject: rootObject,
     withOrientation: withOrientation,
-    image: image
+    use_image: image
   });
 
   client.on('change', function() {
