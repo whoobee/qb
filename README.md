@@ -1,12 +1,26 @@
-## Welcome to GitHub Pages
+## MiroBOT project
 
-You can use the [editor on GitHub](https://github.com/whoobee/mirobot/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+MiroBOT is an autonomous differential drive robot developed in ROS Melodic.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Coponents used in MiroBOT project
+Robot processing unit: 
+ - Jetson Nano
+ - WiFi module
+ - SD Card 32GB or higher
+ 
+Actuators:
+ - Hoverboard motors
+ - Hoverboard wheels
+ - Hoverboard fame
+ - ODrive motor controller
+ 
+Sensors:
+ - YDlidar X4
+ - Intel Realsense T265
+ 
+Power Supply:
+ - Hoverboard battery (36v LiPo 10s2p)
+ - 50v to 5v DC-DC buck converter
 
 ```markdown
 Syntax highlighted code block
