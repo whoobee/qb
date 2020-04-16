@@ -2,7 +2,9 @@
 <launch>
     <!-- Start Odrive Nodes -->
     <include file="$(find mirobot)/launch/base/odrive.launch" />
-    <include file="$(find mirobot)/launch/base/teleop.launch" />
+    <!-- Start Teleop Nodes -->
+    <include file="$(find mirobot)/launch/teleop/rosbridge_teleop.launch" />
+    <include file="$(find mirobot)/launch/teleop/teleop.launch" />
     <!-- Start YDLidar Nodes -->
     <include file="$(find mirobot)/launch/lidar/X4.launch" />
     <!-- Start Realsense Nodes -->

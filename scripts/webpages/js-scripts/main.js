@@ -31,16 +31,17 @@ var app = new Vue({
                 })
 
                 // Setup the map client.
-                this.mapGridClient = new ROS2D.OccupancyGridClient({
+                this.mapGridClient = NAV2D.OccupancyGridClientNav({
                     ros: this.ros,
                     rootObject: this.mapViewer.scene,
-                    continuous: true,
+                    viewer : this.mapViewer,
+                    serverName : '/move_base',
                 })
                 // Scale the canvas to fit to the map
-                this.mapGridClient.on('change', () => {
+                /*this.mapGridClient.on('change', () => {
                     this.mapViewer.scaleToDimensions(this.mapGridClient.currentGrid.width, this.mapGridClient.currentGrid.height);
                     this.mapViewer.shift(this.mapGridClient.currentGrid.pose.position.x, this.mapGridClient.currentGrid.pose.position.y)
-                })
+                })*/
 
             })
             this.ros.on('error', (error) => {
