@@ -5,10 +5,10 @@
   <arg name="set_odom_frame" default="odom"/>
   <arg name="set_map_frame"  default="map"/>
   <arg name="iterations"     default="20"/>
-  <arg name="xmin"           default="-5"/>
-  <arg name="ymin"           default="-5"/>
-  <arg name="xmax"           default="5"/>
-  <arg name="ymax"           default="5"/>
+  <arg name="xmin"           default="-1.5"/>
+  <arg name="ymin"           default="-1.5"/>
+  <arg name="xmax"           default="1.5"/>
+  <arg name="ymax"           default="1.5"/>
   <arg name="delta"          default="0.01"/>
 
   <!-- Gmapping -->

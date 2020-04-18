@@ -1,11 +1,19 @@
 #!/usr/bin/env python
 
-import socketserver
+import SimpleHTTPServer 
+import SocketServer 
+import os
 
-PORT = 80
+HOST, PORT = "192.168.0.67", 8000
 
-Handler = http.server.SimpleHTTPRequestHandler
+web_dir = os.path.join(os.path.dirname(__file__), 'web/')
+os.chdir(web_dir)
 
-with socketserver.TCPServer(("~/mirobot/scripts/webpages/index.html", PORT), Handler) as httpd:
-    print("serving at port", PORT)
-    httpd.serve_forever()
+Handler = SimpleHTTPServer.SimpleHTTPRequestHandler 
+
+httpd = SocketServer.TCPServer((HOST, PORT), Handler) 
+
+print "serving at address:", HOST 
+print "serving at port:", PORT 
+print "web dir:", web_dir 
+httpd.serve_forever()

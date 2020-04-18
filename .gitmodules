@@ -14,3 +14,7 @@
 	path = ros_ws/src/odrive_ros
 	url = https://github.com/whoobee/odrive_ros.git
 	branch = master
+[submodule "ros_ws/src/robot_pose_publisher"]
+	path = ros_ws/src/robot_pose_publisher
+	url = https://github.com/GT-RAIL/robot_pose_publisher.git
+	branch = master
