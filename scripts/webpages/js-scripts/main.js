@@ -12,7 +12,6 @@ var app = new Vue({
         mapGridClientNav: null,
         interval: null,
         nav_cancel_topic: null,
-        tf_client: null,
     },
     // helper methods to connect to ROS
     methods: {
@@ -32,21 +31,15 @@ var app = new Vue({
                     height: 480
                 })
 
-                this.tfClient = new ROSLIB.Topic({
-                    ros : this.ros,
-                    name : '/tf',
-                    messageType : 'tf2_msgs/TFMessage'
-                  });
-
                 // Setup the map client.
                 this.mapGridClientNav = NAV2D.OccupancyGridClientNav({
                     ros: this.ros,
                     rootObject: this.mapViewer.scene,
                     viewer : this.mapViewer,
                     serverName : '/move_base',
-                    image: 'mirobot.png',
+                    //image: '../res/mirobot.png',
                     withOrientation: true,
-                    tfClient: this.tfClient,
+                    robot_pose: '/robot_pose',
                 })
 
                 this.nav_cancel_topic = new ROSLIB.Topic({

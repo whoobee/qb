@@ -1,0 +1,10 @@
+<!-- -*- mode: XML -*- -->
+
+<!--Robot Pose Publisher provides robot location for the web services -->
+<launch>
+    <node
+      pkg  = "robot_pose_publisher" 
+      type = "robot_pose_publisher" 
+      name = "robot_pose_publisher">
+    </node>
+</launch>

@@ -139,8 +139,8 @@ NAV2D.Navigator = function(options) {
     robotMarker.x = pose.x;
     robotMarker.y = -pose.y;
     if (!initScaleSet) {
-      robotMarker.scaleX = 1.0 / stage.scaleX;
-      robotMarker.scaleY = 1.0 / stage.scaleY;
+      robotMarker.scaleX = 1.0 / (stage.scaleX*45);
+      robotMarker.scaleY = 1.0 / (stage.scaleY*45);
       initScaleSet = true;
     }
     // change the angle
@@ -252,6 +252,7 @@ NAV2D.Navigator = function(options) {
         // - set pose with orientation
         // - send goal
         mouseDown = false;
+        that.goalMarker = null;
 
         var goalPos = stage.globalToRos(event.stageX, event.stageY);
 

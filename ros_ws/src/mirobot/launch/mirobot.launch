@@ -3,6 +3,7 @@
     <!-- Start Odrive Nodes -->
     <include file="$(find mirobot)/launch/base/odrive.launch" />
     <!-- Start Teleop Nodes -->
+    <include file="$(find mirobot)/launch/teleop/robot_pose.launch" />
     <include file="$(find mirobot)/launch/teleop/rosbridge_teleop.launch" />
     <include file="$(find mirobot)/launch/teleop/teleop.launch" />
     <!-- Start YDLidar Nodes -->
