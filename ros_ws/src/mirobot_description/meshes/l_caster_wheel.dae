@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.79.0 commit date:2018-02-21, commit time:10:41, hash:8928d99270f</authoring_tool>
     </contributor>
-    <created>2020-03-29T20:05:50</created>
-    <modified>2020-03-29T20:05:50</modified>
+    <created>2020-05-19T21:01:55</created>
+    <modified>2020-05-19T21:01:55</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -49,9 +49,9 @@
   <library_controllers/>
   <library_visual_scenes>
     <visual_scene id="Scene" name="Scene">
-      <node id="visual_l_caster_wheel" name="visual_l_caster_wheel" type="NODE">
+      <node id="visual_caster_wheel" name="visual_caster_wheel" type="NODE">
         <matrix sid="transform">0.016 0 0 0 0 0.02 0 0 0 0 0.0265 0 0 0 0 1</matrix>
-        <instance_geometry url="#Cube_001-mesh" name="visual_l_caster_wheel"/>
+        <instance_geometry url="#Cube_001-mesh" name="visual_caster_wheel"/>
       </node>
     </visual_scene>
   </library_visual_scenes>

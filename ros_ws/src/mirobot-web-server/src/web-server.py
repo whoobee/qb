@@ -1,13 +1,15 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-import SimpleHTTPServer 
-import SocketServer 
+from http.server import CGIHTTPRequestHandler, HTTPServer
 import os
 
 import socket
 import fcntl
 import struct
 import netifaces
+
+import asyncio
+import websockets
 
 def get_ip_address(ifname):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -37,11 +39,11 @@ HOST = get_lan_ip_address()
 web_dir = os.path.join(os.path.dirname(__file__), 'web/')
 os.chdir(web_dir)
 
-Handler = SimpleHTTPServer.SimpleHTTPRequestHandler 
+handler = CGIHTTPRequestHandler
+handler.cgi_directories = ['/cgi-bin', '/htbin']  # this is the default
+server = HTTPServer(((HOST, PORT)), handler)
 
-httpd = SocketServer.TCPServer((HOST, PORT), Handler) 
-
-print "serving at address:", HOST 
-print "serving at port:", PORT 
-print "web dir:", web_dir 
-httpd.serve_forever()
+print ("serving at address:", HOST )
+print ("serving at port:", PORT )
+print ("web dir:", web_dir )
+server.serve_forever()

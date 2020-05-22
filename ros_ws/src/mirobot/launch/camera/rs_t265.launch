@@ -9,7 +9,7 @@ https://github.com/IntelRealSense/librealsense/blob/master/third-party/libtm/lib
   <arg name="usb_port_id"         default=""/>
   <arg name="device_type"         default="t265"/>
   <arg name="json_file_path"      default=""/>
-  <arg name="camera"              default="camera"/>
+  <arg name="camera"              default="t265"/>
   <arg name="tf_prefix"           default="$(arg camera)"/>
 
   <arg name="fisheye_width"       default="848"/> 
@@ -64,4 +64,6 @@ https://github.com/IntelRealSense/librealsense/blob/master/third-party/libtm/lib
       <arg name="publish_odom_tf"          value="$(arg publish_odom_tf)"/>  
     </include>
   </group>
+  <node pkg="tf" type="static_transform_publisher" name="t265_pose" args="0.305 0 0.225 0 0 0 /$(arg camera)_pose_frame /base_link 100"/>
+  <!--<node pkg="tf" type="static_transform_publisher" name="t265_odom" args="0.305 0 0.225 0 0 0 /odom /$(arg camera)_odom_frame 100"/>-->
 </launch>

@@ -51,5 +51,5 @@
       <arg name="color_fps"             value="$(arg color_fps)"/>
     </include>
   </group>
-  <node pkg="tf" type="static_transform_publisher" name="t265_to_d400" args="0 0 0 0 0 0 /$(arg tf_prefix_camera1)_link /$(arg tf_prefix_camera2)_link 100"/>
+  <node pkg="tf" type="static_transform_publisher" name="t265_odom" args="0 0 0 0 0 0.025 /$(arg tf_prefix_camera1)_pose_frame /base_link 100"/>
 </launch>
