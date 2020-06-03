@@ -1,0 +1,8 @@
+prefix=/home/whoobee/mirobot/ros_ws/install
+
+Name: mirobot
+Description: Description of mirobot
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

@@ -1,0 +1,8 @@
+prefix=/home/whoobee/mirobot/ros_ws/install
+
+Name: mirobot-web-server
+Description: Description of mirobot-web-server
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

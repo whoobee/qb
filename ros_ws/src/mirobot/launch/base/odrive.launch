@@ -10,7 +10,7 @@
     <arg name="left_axis_dirrection"    default="-1"/>
 
     <arg name="publish_odom"        default="true"/>
-    <arg name="publish_odom_tf"     default="true"/>
+    <arg name="publish_odom_tf"     default="false"/>
     
     <arg name="output"  default="screen"/>
     <arg name="respawn" default="false"/>

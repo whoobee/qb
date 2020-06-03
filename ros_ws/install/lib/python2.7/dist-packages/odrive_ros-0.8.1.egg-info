@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: odrive_ros
+Version: 0.8.1
+Summary: ODrive motor controller driver for ROS
+Home-page: https://github.com/neomanic/odrive_ros
+Author: Josh Marshall, Tecevo
+Author-email: josh.marshall@tecevo.com
+License: Modified BSD
+Description: UNKNOWN
+Platform: UNKNOWN

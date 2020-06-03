@@ -130,7 +130,7 @@
    </visual>
  </link>
  
-<link name="d400_link">
+<!--<link name="d400_link">
    <visual>
       <geometry>
          <mesh filename="package://mirobot_description/meshes/d435.dae"/>
@@ -146,7 +146,7 @@
       </geometry>
       <material name="white"/>
    </visual>
- </link>
+ </link>-->
 
 
  <joint name="l_caster_wheel_joint" type="fixed">
@@ -183,16 +183,16 @@
    <child link="laser_link"/>
  </joint>
 
- <joint name="d400_joint" type="fixed">
+ <!--<joint name="d400_joint" type="fixed">
    <origin rpy="0 0 0" xyz="0.300 0 0.2"/>
    <parent link="base_link"/>
    <child link="d400_link"/>
  </joint>
  
- <joint name="t265_joint" type="fixed">
+<joint name="t265_joint" type="fixed">
    <origin rpy="0 0 0" xyz="0.305 0 0.225"/>
    <parent link="base_link"/>
    <child link="t265_link"/>
- </joint>
+ </joint>-->
 
 </robot>
