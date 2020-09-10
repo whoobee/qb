@@ -14,8 +14,8 @@ https://github.com/IntelRealSense/librealsense/blob/master/third-party/libtm/lib
 
   <arg name="fisheye_width"       default="848"/> 
   <arg name="fisheye_height"      default="800"/>
-  <arg name="enable_fisheye1"     default="true"/>
-  <arg name="enable_fisheye2"     default="true"/>
+  <arg name="enable_fisheye1"     default="false"/>
+  <arg name="enable_fisheye2"     default="false"/>
 
   <arg name="fisheye_fps"         default="30"/>
   <arg name="gyro_fps"            default="200"/>
@@ -35,10 +35,11 @@ https://github.com/IntelRealSense/librealsense/blob/master/third-party/libtm/lib
   <arg name="tf_prefix"             default="$(arg camera)"/>
   <arg name="base_frame_id"         default="$(arg camera)_link"/>
   <arg name="pose_frame_id"         default="$(arg camera)_pose"/>
-  <arg name="odom_frame_id"         default="odom"/>
+  <arg name="odom_frame_id"         default="$(arg camera)_odom"/>
+  <!--<arg name="odom_frame_id"         default="odom"/>-->
   <arg name="tf_publish_rate"       default="200"/>
-  <arg name="publish_tf"            default="true"/>
-  <arg name="publish_odom_tf"       default="true"/>
+  <arg name="publish_tf"            default="false"/>
+  <arg name="publish_odom_tf"       default="false"/>
 
   <rosparam>
       /t265/tracking_module/enable_pose_jumping: false
@@ -79,6 +80,6 @@ https://github.com/IntelRealSense/librealsense/blob/master/third-party/libtm/lib
       <arg name="publish_odom_tf"          value="$(arg publish_odom_tf)"/>  
     </include>
   </group>
-  <node pkg="tf" type="static_transform_publisher" name="t265_pose_to_base_link"
-    args="-0.307 0.0 0.15  0.0 0.0 0.0 /$(arg pose_frame_id) /base_link 200" />
+  <!--<node pkg="tf" type="static_transform_publisher" name="t265_pose_to_base_link"
+    args="-0.307 0.0 -0.210  0.0 0.0 0.0 /$(arg pose_frame_id) /base_link 40" />-->
 </launch>

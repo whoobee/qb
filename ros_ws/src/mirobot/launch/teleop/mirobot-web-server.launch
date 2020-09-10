@@ -4,7 +4,7 @@
 <launch>
     <node
       pkg  = "mirobot-web-server" 
-      type = "web-server.py" 
+      type = "web-socket-server.py" 
       name = "mirobot_web_server">
     </node>
 </launch>

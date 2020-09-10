@@ -4,22 +4,20 @@
     <!-- Start Odrive Nodes -->
     <include file="$(find mirobot)/launch/base/odrive.launch" />
     <!-- Start Teleop Nodes -->
-    <!--<include file="$(find mirobot)/launch/teleop/robot_pose.launch" />-->
-    <!--<include file="$(find mirobot)/launch/teleop/rosbridge.launch" />-->
-    <!--<include file="$(find mirobot)/launch/teleop/web_video_server.launch" />-->
-    <!-- <include file="$(find mirobot)/launch/teleop/mirobot-web-server.launch" />-->
+    <include file="$(find mirobot)/launch/teleop/robot_pose.launch" />
+    <include file="$(find mirobot)/launch/teleop/rosbridge.launch" />
+    <include file="$(find mirobot)/launch/teleop/web_video_server.launch" />
+    <include file="$(find mirobot)/launch/teleop/mirobot-web-server.launch" />
     <include file="$(find mirobot)/launch/teleop/teleop.launch" />
     <!-- Start YDLidar Nodes -->
     <include file="$(find mirobot)/launch/lidar/X4.launch" />
     <!-- Start Realsense Nodes -->
     <include file="$(find mirobot)/launch/camera/rs_t265.launch" />
+    <include file="$(find rs_odom_manager)/launch/rs_odom_manager.launch" />
     <!-- Start Robot State Description Nodes -->
     <include file="$(find mirobot_description)/launch/mirobot_description.launch" />
     <!-- Run the map server -->
     <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
-    <!-- Start Mapping Nodes -->
-    <!-- <include file="$(find mirobot)/launch/navigation/cartographer.launch" /> -->
-    <!-- <include file="$(find mirobot)/launch/navigation/gmapping_slam.launch" /> -->
     <!-- Start Navigation Nodes -->
     <include file="$(find mirobot)/launch/navigation/amcl.launch" />
     <include file="$(find mirobot)/launch/navigation/move_base.launch" />
