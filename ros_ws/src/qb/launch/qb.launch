@@ -1,0 +1,26 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+    <arg name="map_file" default="$(find qb)/maps/home_map.yaml"/>
+    <!-- Start Alive Mon Nodes -->
+    <include file="$(find qb_alive)/launch/qb_alive.launch" />
+    <!-- Start Odrive Nodes -->
+    <include file="$(find qb)/launch/base/odrive.launch" />
+    <!-- Start Teleop Nodes -->
+    <include file="$(find qb)/launch/teleop/robot_pose.launch" />
+    <include file="$(find qb)/launch/teleop/rosbridge.launch" />
+    <include file="$(find qb)/launch/teleop/web_video_server.launch" />
+    <include file="$(find qb)/launch/teleop/qb-web-server.launch" />
+    <include file="$(find qb)/launch/teleop/teleop.launch" />
+    <!-- Start YDLidar Nodes -->
+    <include file="$(find qb)/launch/lidar/X4.launch" />
+    <!-- Start Realsense Nodes -->
+    <include file="$(find qb)/launch/camera/rs_t265.launch" />
+    <include file="$(find sensor_odom_manager)/launch/sensor_odom_manager.launch" />
+    <!-- Start Robot State Description Nodes -->
+    <include file="$(find qb_description)/launch/qb_description.launch" />
+    <!-- Run the map server -->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+    <!-- Start Navigation Nodes -->
+    <include file="$(find qb)/launch/navigation/amcl.launch" />
+    <include file="$(find qb)/launch/navigation/move_base.launch" />
+</launch>

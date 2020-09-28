@@ -1,0 +1,17 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+    <node 
+        pkg  = "joy" 
+        type = "joy_node" 
+        name = "joy"
+        args = "_autorepeat_rate:=0.01 ">
+    </node>
+
+    <node
+  	    pkg  = "teleop_twist_joy" 
+	 	type = "teleop_node" 
+	 	name = "teleop_twist_joy"
+            args = "_scale_linear:=0.2 _scale_angular:=0.6">
+    </node>
+</launch>
+

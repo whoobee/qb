@@ -1,0 +1,10 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+    <node 
+        pkg  = "web_video_server" 
+        type = "web_video_server" 
+        name = "video_server"
+        args = " _port:=11315 __default_transport:=compressed">
+    </node>
+</launch>
+

@@ -1,0 +1,34 @@
+<launch>
+  <arg name="transform_tolerance" default="0.01"/>
+  <arg name="min_height"    		  default="0.0"/>
+  <arg name="max_height"    		  default="1.0"/>
+  <arg name="angle_min"     			default="-1.5708"/>
+  <arg name="angle_max"      			default="1.5708"/>
+  <arg name="angle_increment"     default="0.0087"/>
+  <arg name="scan_time"           default="0.3333"/>
+  <arg name="range_min"           default="0.20"/>
+  <arg name="range_max"           default="2"/>
+  <arg name="target_frame"        default="lidar_link"/>
+  <arg name="concurrency_level"   default="1"/>
+  <arg name="use_inf"             default="true"/>
+  
+  <remap from="cloud_in" to="/d400/depth/color/points"/>
+  <remap from="scan" to="/laser/scan" />
+  <node 
+    pkg  = "pointcloud_to_laserscan" 
+    type = "pointcloud_to_laserscan_node" 
+    name = "cloud_to_scan">
+    <param name="transform_tolerance" value="$(arg transform_tolerance)"/>
+    <param name="min_height"        value="$(arg min_height)"/>
+    <param name="max_height"        value="$(arg max_height)"/>
+    <param name="angle_min"         value="$(arg angle_min)"/>
+    <param name="angle_max"         value="$(arg angle_max)"/>
+    <param name="angle_increment"   value="$(arg angle_increment)"/>
+    <param name="scan_time"         value="$(arg scan_time)"/>
+    <param name="range_min"         value="$(arg range_min)"/>
+    <param name="range_max"         value="$(arg range_max)"/>
+    <param name="target_frame"      value="$(arg target_frame)"/>
+    <param name="concurrency_level" value="$(arg concurrency_level)"/>
+    <param name="use_inf"           value="$(arg use_inf)"/>
+  </node>
+</launch>
