@@ -1,0 +1,16 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+    <!-- Start Odrive Nodes -->
+    <include file="$(find qb)/launch/base/odrive.launch" />
+    <!-- Start Teleop Nodes -->
+    <include file="$(find qb)/launch/teleop/teleop.launch" />
+    <!-- Start YDLidar Nodes -->
+    <include file="$(find qb)/launch/lidar/X4.launch" />
+    <!-- Start Realsense Nodes -->
+    <include file="$(find qb)/launch/camera/rs_t265.launch" />
+    <include file="$(find sensor_odom_manager)/launch/sensor_odom_manager.launch" />
+    <!-- Start Robot State Description Nodes -->
+    <include file="$(find qb_description)/launch/qb_description.launch" />
+    <!-- Start Mapping Nodes -->
+    <include file="$(find qb)/launch/navigation/gmapping_slam.launch" />
+</launch>

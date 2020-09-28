@@ -1,0 +1,8 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+    <arg name="output"                     default="screen"/>
+    <node pkg="qb_alive" type="qb_alive_node.py" name="qb_alive" ns="qb_alive_mngr" 
+            output="$(arg output)">
+    </node>
+
+</launch>

@@ -1,0 +1,15 @@
+[Unit]
+Description=Start Power Button Listener daemon
+Wants=network.target
+After=network.target multi-user.target
+
+[Service]
+Type=simple
+User=whoobee
+Group=whoobee
+WorkingDirectory=/home/whoobee
+ExecStart=/usr/bin/python /home/whoobee/qb/scripts/powerbtn/powerbtn_listener.py --script_node /home/whoobee/qb/scripts/powerbtn/powerbtn_cmd.sh -l /home/whoobee/qb/scripts/powerbtn/log
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

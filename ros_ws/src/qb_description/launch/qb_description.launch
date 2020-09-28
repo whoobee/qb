@@ -1,0 +1,12 @@
+<launch>
+
+  <arg name="model" default="$(find qb_description)/urdf/qB.urdf"/>
+  <arg name="publish_frequency" default="200"/>
+
+  <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
+  <param name="publish_frequency" type="double" value="$(arg publish_frequency)" />
+  
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+</launch>

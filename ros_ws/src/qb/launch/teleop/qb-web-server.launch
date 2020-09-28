@@ -1,0 +1,10 @@
+<!-- -*- mode: XML -*- -->
+
+<!--Robot Web Server starts an HTTP server for robot control -->
+<launch>
+    <node
+      pkg  = "qb-web-server" 
+      type = "web-socket-server.py" 
+      name = "qb_web_server">
+    </node>
+</launch>
