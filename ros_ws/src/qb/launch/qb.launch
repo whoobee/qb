@@ -1,6 +1,6 @@
 <!-- -*- mode: XML -*- -->
 <launch>
-    <arg name="map_file" default="$(find qb)/maps/home_map.yaml"/>
+    <arg name="map_file" default="$(find qb)/maps/home_map_01.yaml"/>
     <!-- Start Alive Mon Nodes -->
     <include file="$(find qb_alive)/launch/qb_alive.launch" />
     <!-- Start Odrive Nodes -->

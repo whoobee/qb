@@ -201,7 +201,7 @@ def start_ros_state_node():
     ROS_CORE_NODE_PROC = start_process(['/home/whoobee/qb/scripts/powerbtn/powerbtn_roscore.sh'],
                                 'ros', start_time, LOGS_PATH)
     print('PGID ROS: ', os.getpgid(ROS_CORE_NODE_PROC.pid))
-    time.sleep(1)
+    time.sleep(2)
     ROS_QB_STATE_PROC = start_process(['/home/whoobee/qb/scripts/powerbtn/powerbtn_qb_state_manager.sh'],
                                 'qb_state', start_time, LOGS_PATH)
     print('PGID qB-STATE: ', os.getpgid(ROS_QB_STATE_PROC.pid))
@@ -244,8 +244,8 @@ def main(args):
     LOGS_PATH = args.dpath_logs
     SCRIPT_PATH = args.script_node
 
-    #wait 3s for making sure that the network is up
-    time.sleep(3)
+    #wait 4s for making sure that the network is up
+    time.sleep(4)
     #start the ros core and qb_state_manager nodes
     start_ros_state_node()
     #init the button state and logs
