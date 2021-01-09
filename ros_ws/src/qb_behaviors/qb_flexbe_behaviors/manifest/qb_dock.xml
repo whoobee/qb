@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<behavior name="qb_dock">
+
+	<executable package_path="qb_flexbe_behaviors.qb_dock_sm" class="qb_dockSM" />
+	<tagstring>dock, qb</tagstring>
+	<author>Whoobee</author>
+	<date>Sun Oct 18 2020</date>
+	<description>
+		qB docking behavior
+	</description>
+
+
+	<!-- Contained Behaviors -->
+
+	<!-- Available Parameters -->
+	<params>
+
+		<param type="numeric" name="qb_dock_speed" default="0.1" label="qb_dock_speed" hint="Sets the qb_dock_speed">
+			<min value="0" />
+			<max value="0.5" />
+		</param>
+
+		<param type="numeric" name="qb_dock_max_distance" default="1" label="qb_dock_max_distance" hint="Sets the qb_dock_max_distance">
+			<min value="0" />
+			<max value="2" />
+		</param>
+
+		<param type="numeric" name="qb_dock_distance" default="0.5" label="qb_dock_distance" hint="Sets the qb_dock_distance">
+			<min value="0" />
+			<max value="0.6" />
+		</param>
+
+	</params>
+
+
+</behavior>

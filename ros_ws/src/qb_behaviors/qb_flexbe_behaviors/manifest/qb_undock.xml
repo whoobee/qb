@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<behavior name="qb_undock">
+
+	<executable package_path="qb_flexbe_behaviors.qb_undock_sm" class="qb_undockSM" />
+	<tagstring>undock qb</tagstring>
+	<author>Whoobee</author>
+	<date>Sun Oct 18 2020</date>
+	<description>
+		qB undocking behavior
+	</description>
+
+
+	<!-- Contained Behaviors -->
+
+	<!-- Available Parameters -->
+	<params>
+
+		<param type="numeric" name="qb_undock_speed" default="0.15" label="qb_undock_speed" hint="Sets the qb_undock_speed">
+			<min value="0" />
+			<max value="0.5" />
+		</param>
+
+		<param type="numeric" name="qb_undock_distance" default="0.4" label="qb_undock_distance" hint="Sets the qb_undock_distance">
+			<min value="0" />
+			<max value="1" />
+		</param>
+
+		<param type="numeric" name="qb_undock_obstacle_distance" default="0.3" label="qb_undock_obstacle_distance" hint="Sets the qb_undock_obstacle_distance">
+			<min value="0" />
+			<max value="2" />
+		</param>
+
+		<param type="numeric" name="qb_undock_wall_distance" default="0.6" label="qb_undock_wall_distance" hint="Sets the qb_undock_wall_distance">
+			<min value="0" />
+			<max value="1" />
+		</param>
+
+	</params>
+
+
+</behavior>

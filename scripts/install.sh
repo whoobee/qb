@@ -24,7 +24,7 @@ echo "export ROS_IP=192.168.0.178" >> ~/.bashrc
 
 #install qB ROS dependecies
 ################################
-sudo apt-get install ros-melodic-map-server ros-melodic-gmapping ros-melodic-rosbridge-server ros-melodic-joy ros-melodic-teleop-twist-joy ros-melodic-web-video-server ros-melodic-amcl ros-melodic-move-base ros-melodic-dwa-local-planner ros-melodic-rosapi -y
+sudo apt-get install -y ros-melodic-map-server ros-melodic-gmapping ros-melodic-rosbridge-server ros-melodic-joy ros-melodic-teleop-twist-joy ros-melodic-web-video-server ros-melodic-amcl ros-melodic-move-base ros-melodic-dwa-local-planner ros-melodic-rosapi ros-melodic-pointcloud-to-laserscan ros-melodic-rtabmap-ros
 
 #clone qB and setup
 ########################

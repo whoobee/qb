@@ -9,6 +9,12 @@
     <arg name="port"         default="/dev/ttyS1"/>
     <arg name="baud"         default="115200"/>
 
+    <!-- Start Teleop Nodes -->
+    <include file="$(find qb)/launch/teleop/robot_pose.launch" />
+    <include file="$(find qb)/launch/teleop/rosbridge.launch" />
+    <include file="$(find qb)/launch/teleop/web_video_server.launch" />
+    <include file="$(find qb)/launch/teleop/qb-web-server.launch" />
+
     <node pkg="rosserial_python" type="serial_node.py" name="rosserial">
         <param name="port"         value="$(arg port)"/>
         <param name="baud"         value="$(arg baud)"/>

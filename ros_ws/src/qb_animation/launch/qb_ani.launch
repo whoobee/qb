@@ -1,0 +1,13 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+    <arg name="qb_ani_status"          default="/qb_ani_status"/>
+    <arg name="qb_ani_req"            default="/qb_ani_request"/>
+    <arg name="output"                      default="screen"/>
+   
+    <node pkg="qb_ani" type="qb_ani_node.py" name="qb_ani" ns="qb_ani_mngr" 
+            output="$(arg output)">
+        <param name="qb_ani_status"          value="$(arg qb_ani_status)"/>
+        <param name="qb_ani_req"             value="$(arg qb_ani_req)"/>
+    </node>
+
+</launch>

@@ -1,0 +1,14 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+    <arg name="qb_speech_cmd_topic"        default="/qb_speech_cmd"/>
+    <arg name="output"                     default="screen"/>
+
+    <arg name="port"         default="/dev/ttyS1"/>
+    <arg name="baud"         default="115200"/>
+
+    <node pkg="qb_speech" type="qb_speech_node.py" name="qb_speech" ns="qb_speech_mngr" 
+            output="$(arg output)">
+        <param name="qb_speech_cmd_topic"          value="$(arg qb_speech_cmd_topic)"/>
+    </node>
+
+</launch>
