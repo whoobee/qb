@@ -1,0 +1,9 @@
+<!-- -*- mode: XML -*- -->
+
+<!--RVIZ startup -->
+<launch>
+  <node type="rviz" 
+        name="rviz" 
+        pkg="rviz" 
+        args="-d $(find qb)/rviz_cofnig/navigation.rviz" />
+</launch>

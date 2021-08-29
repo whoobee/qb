@@ -1,6 +1,6 @@
 <launch>
 
-  <arg name="model" default="$(find qb_description)/urdf/qB.urdf"/>
+  <arg name="model" default="$(find qb_description)/urdf/qb.xacro"/>
   <arg name="publish_frequency" default="200"/>
 
   <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />

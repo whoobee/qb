@@ -1,0 +1,20 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+    <arg name="map_file" default="$(find qb)/maps/qb_sim_map.yaml"/>
+    <!-- Run robot description -->
+    <include file="$(find qb_description)/launch/qb_description.launch" />
+    <!-- Run gazebo simulation -->
+    <include file="$(find qb_description)/launch/gazebo.launch" />
+    <!-- Start Teleop Nodes -->
+    <include file="$(find qb)/launch/teleop/robot_pose.launch" />
+    <include file="$(find qb)/launch/teleop/teleop.launch" />
+    <!-- Run the map server -->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+    <!-- Start Navigation Nodes -->
+    <include file="$(find qb)/launch/navigation/amcl.launch" />
+    <include file="$(find qb)/launch/navigation/move_base.launch" />
+    <!-- Start RVIZ -->
+    <include file="$(find qb)/launch/rviz/qb_rviz.launch" />
+    <!-- Start RQT UI -->
+    <include file="$(find qb)/launch/rqt/qb_rqt_ui.launch" />
+</launch>

@@ -1,0 +1,11 @@
+<launch>
+  <param command="$(find xacro)/xacro $(find qb_description)/urdf/qb.xacro" name="robot_description"/>
+  <node args="-param robot_description -urdf -model qb" name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"/>
+  <include file="$(find qb_description)/launch/qb_world.launch">
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+</launch>

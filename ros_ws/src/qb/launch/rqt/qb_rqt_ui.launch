@@ -1,0 +1,11 @@
+<!-- -*- mode: XML -*- -->
+
+<!--RVIZ startup -->
+<launch>
+  <node type="rqt_gui" 
+        name="qb_rqt_ui" 
+        pkg="rqt_gui" 
+        respawn = "false" 
+        output = "screen" 
+        args = "--perspective-file $(find qb)/rqt_config/qb.perspective"/>
+</launch>

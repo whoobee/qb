@@ -1,0 +1,13 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+    <!-- Run robot description -->
+    <include file="$(find qb_description)/launch/qb_description.launch" />
+    <!-- Run gazebo simulation -->
+    <include file="$(find qb_description)/launch/gazebo.launch" />
+    <!-- Start Teleop Nodes -->
+    <include file="$(find qb)/launch/teleop/teleop.launch" />
+    <!-- Start Mapping Nodes -->
+    <include file="$(find qb)/launch/navigation/gmapping_slam.launch" />
+    <!-- Start RVIZ -->
+    <include file="$(find qb)/launch/rviz/qb_rviz.launch" />
+</launch>

@@ -8,7 +8,7 @@
   <arg name="scan_time"           default="0.3333"/>
   <arg name="range_min"           default="0.20"/>
   <arg name="range_max"           default="2"/>
-  <arg name="target_frame"        default="lidar_link"/>
+  <arg name="target_frame"        default="laser_link"/>
   <arg name="concurrency_level"   default="1"/>
   <arg name="use_inf"             default="true"/>
   
