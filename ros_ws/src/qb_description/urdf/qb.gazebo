@@ -140,4 +140,23 @@
     </sensor>
   </gazebo>
 
+  <!-- qb bumper sensor -->
+  <gazebo reference="base_link">
+    <sensor name="qb_bumper" type="contact">
+      <always_on>true</always_on>
+      <update_rate>10</update_rate>
+      <contact>
+        <!-- the name of the collision is generated during the conversion from URDF to SDF -->
+        <!-- use xacro_to_sdf_converter.sh to find out the generated name -->
+        <collision>base_link_fixed_joint_lump__t265_collision_box_collision_5</collision>
+      </contact>
+      <plugin name="gazebo_ros_bumper_controller" filename="libgazebo_ros_bumper.so"> 
+          <bumperTopicName>qb_bumper</bumperTopicName>
+          <frameName>world</frameName>
+          <always_on>true</always_on>
+          <update_rate>10</update_rate>
+      </plugin>
+    </sensor>
+  </gazebo>  
+
 </robot>
