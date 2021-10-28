@@ -1,0 +1,24 @@
+[submodule "ros_ws/src/sensor_odom_manager"]
+	path = ros_ws/src/sensor_odom_manager
+	url = https://github.com/whoobee/sensor_odom_manager.git
+	branch = master
+[submodule "ros_ws/src/realsense-ros"]
+	path = ros_ws/src/realsense-ros
+	url = https://github.com/whoobee/realsense-ros.git
+	branch = development
+[submodule "ros_ws/src/ddynamic_reconfigure"]
+	path = ros_ws/src/ddynamic_reconfigure
+	url = https://github.com/whoobee/ddynamic_reconfigure.git
+	branch = kinetic-devel
+[submodule "ros_ws/src/ydlidar_ros"]
+	path = ros_ws/src/ydlidar_ros
+	url = https://github.com/whoobee/ydlidar_ros.git
+	branch = master
+[submodule "ros_ws/src/odrive_ros"]
+	path = ros_ws/src/odrive_ros
+	url = https://github.com/whoobee/odrive_ros.git
+	branch = master
+[submodule "ros_ws/src/robot_pose_publisher"]
+	path = ros_ws/src/robot_pose_publisher
+	url = https://github.com/whoobee/robot_pose_publisher.git
+	branch = develop
