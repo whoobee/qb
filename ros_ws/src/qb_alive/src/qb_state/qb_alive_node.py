@@ -10,7 +10,7 @@ import diagnostic_updater, diagnostic_msgs.msg
 
 import time
 import traceback
-import Queue
+import queue
 
 import json
 

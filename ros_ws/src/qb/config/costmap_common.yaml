@@ -8,4 +8,4 @@ cost_scaling_factor: 0.5
 map_type: costmap
 transform_tolerance: 0.2
 observation_sources: scan
-scan: {data_type: LaserScan, topic: scan, marking: true, clearing: true}
+scan: {data_type: LaserScan, topic: /scan, marking: true, clearing: true}
