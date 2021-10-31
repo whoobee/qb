@@ -19,9 +19,10 @@ sudo apt install python3-rosdep python3-rosinstall python3-rosinstall-generator 
 sudo rosdep init
 rosdep update
 echo "source ~/qb/ros_ws/devel/setup.bash" >> ~/.bashrc
-echo "export ROS_MASTER_URI=http://192.168.0.180:11311" >> ~/.bashrc
-echo "export ROS_HOSTNAME=192.168.0.180" >> ~/.bashrc
-echo "export ROS_IP=192.168.0.180" >> ~/.bashrc
+echo "export QB_IP_ADDR=$(hostname -I | awk '{print $1}')" >> ~/.bashrc
+echo "export ROS_MASTER_URI=http://${QB_IP_ADDR}:11311" >> ~/.bashrc
+echo "export ROS_HOSTNAME=${QB_IP_ADDR}" >> ~/.bashrc
+echo "export ROS_IP=${QB_IP_ADDR}" >> ~/.bashrc
 
 #install qB ROS dependecies
 ################################
