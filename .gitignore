@@ -6,3 +6,5 @@
 ros_ws/src/qb-web-server/src/websocket_server/__pycache__/*.*
 ros_ws/src/qb-web-server/src/websocket_server/__pycache__/__init__.cpython-36.pyc
 ros_ws/src/qb-web-server/src/websocket_server/__pycache__/__init__.cpython-36.pyc
+**/frames.gv
+**/frames.pdf
