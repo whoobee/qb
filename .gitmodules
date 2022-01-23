@@ -22,3 +22,7 @@
 	path = ros_ws/src/robot_pose_publisher
 	url = https://github.com/whoobee/robot_pose_publisher.git
 	branch = develop
+[submodule "ros_ws/src/aruco_ros"]
+	path = ros_ws/src/aruco_ros
+	url = https://github.com/whoobee/aruco_ros.git
+	branch = noetic-devel
