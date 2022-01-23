@@ -19,4 +19,6 @@
     <!-- Start Navigation Nodes -->
     <include file="$(find qb)/launch/navigation/amcl.launch" />
     <include file="$(find qb)/launch/navigation/move_base.launch" />
+    <!-- Add docking nodes -->
+    <include file="$(find qb_aruco_localizer)/launch/qb_aruco_localizer.launch" />
 </launch>
