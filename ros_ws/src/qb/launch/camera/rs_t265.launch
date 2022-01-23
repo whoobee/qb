@@ -8,7 +8,7 @@ https://github.com/IntelRealSense/librealsense/blob/master/third-party/libtm/lib
   <arg name="serial_no"           default="905312110732"/>
   <arg name="usb_port_id"         default=""/>
   <arg name="device_type"         default="t265"/>
-  <arg name="calib_odom_file"      default="$(find qb)/config/t265_wheel_odom.json"/>
+  <arg name="json_file_path"      default="$(find qb)/config/t265_wheel_odom.json"/>
   <arg name="camera"              default="t265"/>
   <arg name="tf_prefix"           default="$(arg camera)"/>
   <arg name="enable_sync"           default="false"/>
@@ -25,8 +25,6 @@ https://github.com/IntelRealSense/librealsense/blob/master/third-party/libtm/lib
   <arg name="enable_accel"        default="true"/>
   <arg name="enable_pose"         default="true"/>
 
-  
-
   <arg name="linear_accel_cov"      default="0.01"/>
   <arg name="initial_reset"         default="false"/>
   <arg name="reconnect_timeout"     default="6.0"/>
@@ -38,11 +36,9 @@ https://github.com/IntelRealSense/librealsense/blob/master/third-party/libtm/lib
   <arg name="publish_tf"            default="false"/>
 
   <arg name="publish_odom_tf"     default="false"/>
-
+  
   <!-- If the parameter below is non-empty, the T265 node will attempt to load a saved map from the given path -->
-  <arg name="map_out" default="/home/whoobee/qb/ros_ws/src/qb/config/t265_saved_map_01.bin"/>
-  <arg name="map_in" default=""/>
-  <arg name="map_frame_id" default="map"/>
+  <arg name="localization_map_filepath" default="/home/whoobee/qb/ros_ws/src/qb/config/t265_saved_map_01.bin"/>
 
   <group ns="$(arg camera)">
     <include file="$(find realsense2_camera)/launch/includes/nodelet.launch.xml">
@@ -50,7 +46,7 @@ https://github.com/IntelRealSense/librealsense/blob/master/third-party/libtm/lib
       <arg name="serial_no"                value="$(arg serial_no)"/>
       <arg name="usb_port_id"              value="$(arg usb_port_id)"/>
       <arg name="device_type"              value="$(arg device_type)"/>
-      <arg name="calib_odom_file"           value="$(arg calib_odom_file)"/>
+      <arg name="json_file_path"           value="$(arg json_file_path)"/>
 
       <arg name="enable_sync"              value="$(arg enable_sync)"/>
 
@@ -76,9 +72,8 @@ https://github.com/IntelRealSense/librealsense/blob/master/third-party/libtm/lib
       <arg name="tf_publish_rate"          value="$(arg tf_publish_rate)"/> 
       <arg name="publish_tf"               value="$(arg publish_tf)"/>
       <arg name="publish_odom_tf"          value="$(arg publish_odom_tf)"/>
+
+      <arg name="localization_map_filepath" value="$(arg localization_map_filepath)"/>
     </include>
-    <param name="realsense2_camera/map_out" value="$(arg map_out)"/>
-    <param name="realsense2_camera/map_in" value="$(arg map_in)"/>
-    <param name="realsense2_camera/map_frame_id" value="$(arg map_frame_id)"/>
   </group>
 </launch>
