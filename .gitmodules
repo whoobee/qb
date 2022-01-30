@@ -26,3 +26,7 @@
 	path = ros_ws/src/aruco_ros
 	url = https://github.com/whoobee/aruco_ros.git
 	branch = noetic-devel
+[submodule "ros_ws/src/ira_laser_tools"]
+	path = ros_ws/src/ira_laser_tools
+	url = https://github.com/whoobee/ira_laser_tools.git
+	branch = ros1-master

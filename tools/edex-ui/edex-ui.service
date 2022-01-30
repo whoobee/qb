@@ -1,0 +1,14 @@
+[Unit]
+Description=eDex-UI daemon
+After=graphical.target
+
+[Service]
+Type=simple
+User=whoobee
+Group=whoobee
+WorkingDirectory=/home/whoobee
+ExecStart=/bin/bash /home/whoobee/qb/tools/edex-ui/edex-ui-start.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

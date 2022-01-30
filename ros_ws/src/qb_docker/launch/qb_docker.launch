@@ -1,0 +1,21 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+    <arg name="qb_docker_rgb"          default="/d435/color/image_raw"/>
+    <arg name="qb_docker_rgb_info"     default="/d435/color/camera_info"/>
+    <arg name="qb_docker_depth"        default="/d435/depth/image_rect_raw"/>
+    <arg name="qb_docker_depth_info"   default="/d435/depth/camera_info"/>
+    <arg name="qb_docker_aruco_dict"   default="DICT_ARUCO_ORIGINAL"/>
+    <arg name="qb_docker_aruco_id"     default="701"/>
+    <arg name="output"                 default="screen"/>
+   
+    <node pkg="qb_docker" type="qb_docker_node.py" name="qb_docker" ns="qb_docker_mngr" 
+            output="$(arg output)">
+        <param name="qb_docker_rgb"          value="$(arg qb_docker_rgb)"/>
+        <param name="qb_docker_rgb_info"     value="$(arg qb_docker_rgb_info)"/>
+        <param name="qb_docker_depth"        value="$(arg qb_docker_depth)"/>
+        <param name="qb_docker_depth_info"   value="$(arg qb_docker_depth_info)"/>
+        <param name="qb_docker_aruco_dict"   value="$(arg qb_docker_aruco_dict)"/>
+        <param name="qb_docker_aruco_id"     value="$(arg qb_docker_aruco_id)"/>
+    </node>
+
+</launch>
