@@ -30,3 +30,11 @@
 	path = ros_ws/src/ira_laser_tools
 	url = https://github.com/whoobee/ira_laser_tools.git
 	branch = ros1-master
+[submodule "ros_ws/src/flexbe_behavior_engine"]
+	path = ros_ws/src/flexbe_behavior_engine
+	url = https://github.com/team-vigir/flexbe_behavior_engine.git
+	branch = master
+[submodule "ros_ws/src/flexbe_app"]
+	path = ros_ws/src/flexbe_app
+	url = https://github.com/FlexBE/flexbe_app.git
+	branch = master
