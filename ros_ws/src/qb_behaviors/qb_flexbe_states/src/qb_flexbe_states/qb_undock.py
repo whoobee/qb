@@ -78,6 +78,7 @@ class QbUndockState(EventState):
 
     def on_enter(self, userdata):
         Logger.loginfo("UNDOCK STARTED!")
+        self._start_time = rospy.Time.now()
         #set robot speed here
         self.cmd_pub = Twist()
         self.cmd_pub.linear.x = self._speed
@@ -90,7 +91,6 @@ class QbUndockState(EventState):
         
     def on_start(self):
         Logger.loginfo("UNDOCK READY!")
-        self._start_time = rospy.Time.now() #bug detected! (move to on_enter)
         
     def on_stop(self):
 		Logger.loginfo("UNDOCK STOPPED!")

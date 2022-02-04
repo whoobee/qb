@@ -8,7 +8,10 @@
 ###########################################################
 
 from flexbe_core import Behavior, Autonomy, OperatableStateMachine, ConcurrencyContainer, PriorityContainer, Logger
-from qb_flexbe_states.qb_dock import QbDockState
+from qb_flexbe_states.qb_dock_approach import QbDockApproachState
+from qb_flexbe_states.qb_dock_engage import QbDockEngageState
+from qb_flexbe_states.qb_dock_park import QbDockParkState
+from qb_flexbe_states.qb_dock_search import QbDockSearchState
 # Additional imports can be added inside the following tags
 # [MANUAL_IMPORT]
 
@@ -46,7 +49,7 @@ class qb_dockSM(Behavior):
 
 
 	def create(self):
-		# x:306 y:26, x:303 y:82
+		# x:66 y:435, x:290 y:193
 		_state_machine = OperatableStateMachine(outcomes=['finished', 'failed'])
 
 		# Additional creation code can be added inside the following tags
@@ -56,10 +59,28 @@ class qb_dockSM(Behavior):
 
 
 		with _state_machine:
-			# x:120 y:34
-			OperatableStateMachine.add('Dock',
-										QbDockState(dock_speed=self.qb_dock_speed, dock_max_dist=self.qb_dock_max_distance, dock_dist=self.qb_dock_distance),
+			# x:30 y:99
+			OperatableStateMachine.add('Appoach_Docking_Point',
+										QbDockApproachState(rotation_speed=1, rotation_angle=1),
+										transitions={'failed': 'failed', 'done': 'Search_Docking_Station'},
+										autonomy={'failed': Autonomy.Off, 'done': Autonomy.Off})
+
+			# x:21 y:335
+			OperatableStateMachine.add('Engage_Connection_To_Docking_Station',
+										QbDockEngageState(rotation_speed=1, rotation_angle=1),
 										transitions={'failed': 'failed', 'done': 'finished'},
+										autonomy={'failed': Autonomy.Off, 'done': Autonomy.Off})
+
+			# x:21 y:254
+			OperatableStateMachine.add('Park_In_Docking_Station',
+										QbDockParkState(rotation_speed=1, rotation_angle=1),
+										transitions={'failed': 'failed', 'done': 'Engage_Connection_To_Docking_Station'},
+										autonomy={'failed': Autonomy.Off, 'done': Autonomy.Off})
+
+			# x:26 y:181
+			OperatableStateMachine.add('Search_Docking_Station',
+										QbDockSearchState(rotation_speed=0.3, rotation_angle=30),
+										transitions={'failed': 'failed', 'done': 'Park_In_Docking_Station'},
 										autonomy={'failed': Autonomy.Off, 'done': Autonomy.Off})
 
 

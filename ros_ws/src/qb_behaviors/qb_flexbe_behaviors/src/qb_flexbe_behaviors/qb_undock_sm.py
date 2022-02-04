@@ -8,7 +8,8 @@
 ###########################################################
 
 from flexbe_core import Behavior, Autonomy, OperatableStateMachine, ConcurrencyContainer, PriorityContainer, Logger
-from qb_flexbe_states.qb_undock import QbUndockState
+from qb_flexbe_states.qb_undock_depart import QbUndockDepartState
+from qb_flexbe_states.qb_undock_disengage import QbUndockDisengageState
 # Additional imports can be added inside the following tags
 # [MANUAL_IMPORT]
 
@@ -47,7 +48,7 @@ class qb_undockSM(Behavior):
 
 
 	def create(self):
-		# x:382 y:33, x:371 y:91
+		# x:39 y:244, x:318 y:107
 		_state_machine = OperatableStateMachine(outcomes=['finished', 'failed'])
 
 		# Additional creation code can be added inside the following tags
@@ -57,9 +58,15 @@ class qb_undockSM(Behavior):
 
 
 		with _state_machine:
-			# x:167 y:29
-			OperatableStateMachine.add('Undock',
-										QbUndockState(undock_speed=self.qb_undock_speed, undock_dist=self.qb_undock_distance, undock_wall_dist=self.qb_undock_wall_distance, undock_obstacle_dist=self.qb_undock_obstacle_distance),
+			# x:50 y:41
+			OperatableStateMachine.add('Disengage_Docking_Station',
+										QbUndockDisengageState(rotation_speed=1, rotation_angle=1),
+										transitions={'failed': 'failed', 'done': 'Depart_Docking_Station'},
+										autonomy={'failed': Autonomy.Off, 'done': Autonomy.Off})
+
+			# x:51 y:131
+			OperatableStateMachine.add('Depart_Docking_Station',
+										QbUndockDepartState(rotation_speed=1, rotation_angle=1),
 										transitions={'failed': 'failed', 'done': 'finished'},
 										autonomy={'failed': Autonomy.Off, 'done': Autonomy.Off})
 
