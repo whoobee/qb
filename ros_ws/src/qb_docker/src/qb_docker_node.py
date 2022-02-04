@@ -10,9 +10,10 @@ import rospy
 import std_msgs.msg
 from std_msgs.msg import Float64, Int32, String
 from actionlib_msgs.msg import GoalID, GoalStatus, GoalStatusArray
-from visualization_msgs.msg import Marker
 import diagnostic_updater, diagnostic_msgs.msg
-from geometry_msgs.msg import Pose
+from geometry_msgs.msg import Pose, Twist
+from nav_msgs.msg import Odometry
+from tf.transformations import euler_from_quaternion, quaternion_from_euler
 # import image msg types
 from sensor_msgs.msg import Image # import rgb img msg ype
 from sensor_msgs.msg import CameraInfo # import pointcloud msg type
@@ -81,6 +82,14 @@ class QbDocker(object):
 
     intrinsics = None
 
+    vel_msg = Twist()
+
+    aruco_found = False
+    centered = False
+    theta=0
+    odom_yaw=0
+    kP=0.4
+
     #init
     def __init__(self):
         #read params
@@ -90,6 +99,7 @@ class QbDocker(object):
         self.qb_docker_depth_info  = get_param('~qb_docker_depth_info' , "/qb_docker_depth_info")
         self.qb_docker_aruco_dict  = get_param('~qb_docker_aruco_dict' , "DICT_ARUCO_ORIGINAL")
         self.qb_docker_aruco_id  = get_param('~qb_docker_aruco_id' , 701)
+        self.qb_docker_odom  = get_param('~qb_docker_odom' , "/odom")
         #ArUco dictionary selection
         self.aruco_dictionary = cv2.aruco.Dictionary_get(ARUCO_DICT[self.qb_docker_aruco_dict])
         self.aruco_parameters = cv2.aruco.DetectorParameters_create()
@@ -104,30 +114,12 @@ class QbDocker(object):
         rospy.Subscriber(self.qb_docker_depth, Image, self.depth_stream_cbk)
         # Node is subscribing to the depth info frame topic
         rospy.Subscriber(self.qb_docker_depth_info, CameraInfo, self.depth_stream_info_cbk)
-        # Node publisher for marker
-        self.pub = rospy.Publisher("/marker", Marker, queue_size = 100)
+        # Node is subscribing to the odometry topic
+        rospy.Subscriber(self.qb_docker_odom, Odometry, self.odom_info_cbk)
+        # Node publisher for cmd_vel
+        self.pub = rospy.Publisher("/cmd_vel", Twist, queue_size = 10)
         # Used to convert between ROS and OpenCV images
         self.bridge = CvBridge()
-        # define Marker
-        self.marker = Marker()
-        self.marker.header.frame_id = "d435_link"
-        self.marker.id = 1
-        self.marker.type = 2
-        self.marker.action = 2
-        self.marker.pose = Pose()
-        self.marker.color.r = 1.0
-        self.marker.color.g = 0.5
-        self.marker.color.b = 0.2
-        self.marker.color.a = 0.3
-        self.marker.scale.x = 0.5
-        self.marker.scale.y = 0.5
-        self.marker.scale.z = 0.5
-        self.marker.pose.orientation.x = 0
-        self.marker.pose.orientation.y = 0
-        self.marker.pose.orientation.z = 0
-        self.marker.pose.orientation.w = 1
-        self.marker.frame_locked = False
-        self.marker.ns = 'marker_test_%d' % Marker.CUBE
 
     #main loop handler
     def main_loop(self):
@@ -141,23 +133,38 @@ class QbDocker(object):
     def fast_timer(self, timer_event):
         #calculate timestamp and publish
         time_now = rospy.Time.now()
-        self.marker.header.stamp = time_now
-        self.marker.type = self.marker.CUBE
-        self.marker.action = self.marker.ADD
-
-        #self.marker.pose.position.x = 0
-        #self.marker.pose.position.y = 0
-        #self.marker.pose.position.z = 0
-
-        self.marker.lifetime = rospy.Duration.from_sec(10)
-        rospy.loginfo("Publish marker")
-        self.pub.publish(self.marker)
+        #set linear speed to 0
+        self.vel_msg.linear.x = 0
+        self.vel_msg.linear.y = 0
+        self.vel_msg.linear.z = 0
+        #set angular speed on z only
+        self.vel_msg.angular.x = 0
+        self.vel_msg.angular.y = 0
+        if(not self.aruco_found):
+            self.vel_msg.angular.z = abs(0.4)
+            self.pub.publish(self.vel_msg)
 
     
     #shutdown hook
     def terminate(self):
         # Close down the video stream when done
+        self.vel_msg.angular.z = abs(0)
         cv2.destroyAllWindows()
+
+    #odom stream subscriber cbk
+    def odom_info_cbk(self, data):
+        roll = pitch = yaw = 0.0
+        orientation = [ data.pose.pose.orientation.x, 
+                        data.pose.pose.orientation.y, 
+                        data.pose.pose.orientation.z, 
+                        data.pose.pose.orientation.w ]
+        (roll, pitch, yaw) = euler_from_quaternion(orientation)
+        self.odom_yaw = yaw
+        if(self.centered == True):
+            self.vel_msg.angular.z = abs(self.kP * (self.theta - self.odom_yaw))
+            self.pub.publish(self.vel_msg)
+            rospy.loginfo("CMD-vel yaw: " + str(self.vel_msg.angular.z))
+            rospy.loginfo("Odom yaw: " + str(np.degrees(yaw)))
 
     #rgb stream subscriber cbk
     def rgb_stream_cbk(self, data):
@@ -190,6 +197,12 @@ class QbDocker(object):
                         self.center_y = int((top_left[1] + bottom_right[1]) / 2.0)
                         # Dump some debug data
                         #rospy.loginfo("Found ArUco id (" + str(marker_id) + ") at coordonates [x=" + str(self.center_x) +", y=" + str(self.center_y) + "]")
+                        #if((self.center_x > (data.width/2) - 10) and (self.center_x < (data.width/2) + 10) ):
+                        #rospy.loginfo("ArUco is in the middle")
+                        self.aruco_found = True
+                        self.vel_msg.angular.z = abs(0)
+                        self.pub.publish(self.vel_msg)
+
             # synch frames
             cv2.waitKey(1)
         except CvBridgeError as e:
@@ -222,41 +235,52 @@ class QbDocker(object):
     def depth_stream_cbk(self, data):
         try:
             cv_image = self.bridge.imgmsg_to_cv2(data, data.encoding)
-            pix_center = (self.center_x, self.center_y)
-            depth = (cv_image[int(pix_center[1]), int(pix_center[0])])
-            #rospy.loginfo("Found ArUco id (" + str(self.qb_docker_aruco_id) + ") at coordonates [x=" + str(self.center_x) +", y=" + str(self.center_y) + "] at depth of (" + str(depth) + " mm)")
+            pix_marker_center = (self.center_x, self.center_y)
+            pix_camera_center = (data.width/2, self.center_y)
             if self.intrinsics:
-                depth = cv_image[int(pix_center[1]), int(pix_center[0])]
-                result_center = rs2.rs2_deproject_pixel_to_point(self.intrinsics, [pix_center[0], pix_center[1]], depth)
+                if self.aruco_found == True:
+                    depth_marker = cv_image[int(pix_marker_center[1]), int(pix_marker_center[0])]
+                    result_marker_center = rs2.rs2_deproject_pixel_to_point(self.intrinsics, [pix_marker_center[0], pix_marker_center[1]], depth_marker)
+                    depth_image = cv_image[int(pix_camera_center[1]), int(pix_camera_center[0])]
+                    result_image_center = rs2.rs2_deproject_pixel_to_point(self.intrinsics, [pix_camera_center[0], pix_camera_center[1]], depth_image)
+
+                    ux, uy, uz = u = [result_marker_center[0], result_marker_center[1], result_marker_center[2]]
+                    vx, vy, vz = v = [result_image_center[0], result_image_center[1], result_image_center[2]]
+                    #rospy.loginfo("u vect: " + str(u))
+                    #rospy.loginfo("v vect: " + str(v))
+
+                    u1 = u / np.linalg.norm(u)
+                    v1 = v / np.linalg.norm(v)
+                    #rospy.loginfo("u1 vect: " + str(u1))
+                    #rospy.loginfo("v1 vect: " + str(v1))
+
+                    prod = np.dot(u1, v1)
+                    #rospy.loginfo("Calculated dot prod: " + str(prod))
+                    _theta = np.arccos(np.clip(np.dot(u1, v1), -1.0, 1.0))
+
+                    if(self.centered == False):
+                        self.centered = True
+                        self.theta = self.odom_yaw + _theta
+                        rospy.loginfo("Calculated theta: " + str(np.degrees(self.theta)))
+ 
                 #rospy.loginfo("Result Center: " + str(result_center))
-
-                depth_top_right = cv_image[self.top_right]
-                result_top_right = rs2.rs2_deproject_pixel_to_point(self.intrinsics, self.top_right, depth_top_right)
+                #depth_top_right = cv_image[self.top_right]
+                #result_top_right = rs2.rs2_deproject_pixel_to_point(self.intrinsics, self.top_right, depth_top_right)
                 #rospy.loginfo("Result Top Right: " + str(result_top_right))
-
-                depth_top_left = cv_image[self.top_left]
-                result_top_left = rs2.rs2_deproject_pixel_to_point(self.intrinsics, self.top_left, depth_top_left)
+                #depth_top_left = cv_image[self.top_left]
+                #result_top_left = rs2.rs2_deproject_pixel_to_point(self.intrinsics, self.top_left, depth_top_left)
                 #rospy.loginfo("Result Top Left: " + str(result_top_left))
-
-                depth_bot_right = cv_image[self.bottom_right]
-                result_bot_right = rs2.rs2_deproject_pixel_to_point(self.intrinsics, self.bottom_right, depth_bot_right)
+                #depth_bot_right = cv_image[self.bottom_right]
+                #result_bot_right = rs2.rs2_deproject_pixel_to_point(self.intrinsics, self.bottom_right, depth_bot_right)
                 #rospy.loginfo("Result Bot Right: " + str(result_bot_right))
-
-                depth_bot_left = cv_image[self.bottom_left]
-                result_bot_left = rs2.rs2_deproject_pixel_to_point(self.intrinsics, self.bottom_left, depth_bot_left)
+                #depth_bot_left = cv_image[self.bottom_left]
+                #result_bot_left = rs2.rs2_deproject_pixel_to_point(self.intrinsics, self.bottom_left, depth_bot_left)
                 #rospy.loginfo("Result Bot Left: " + str(result_bot_left))
-
-                ux, uy, uz = u = [result_top_right[0]-result_top_left[0], result_top_right[1]-result_top_left[1], result_top_right[2]-result_top_left[2]]
-                vx, vy, vz = v = [result_bot_right[0]-result_top_left[0], result_bot_right[1]-result_top_left[1], result_bot_right[2]-result_top_left[2]]
-                
-                u_cross_v = [uy*vz-uz*vy, uz*vx-ux*vz, ux*vy-uy*vx]
-                normal = np.array(u_cross_v)
-
-                self.marker.pose.position.y = result_center[0]/1000
-                self.marker.pose.position.z = result_center[1]/1000
-                self.marker.pose.position.x = result_center[2]/1000
-
-                rospy.loginfo("normal: " + str(result_center))
+                #ux, uy, uz = u = [result_top_right[0]-result_top_left[0], result_top_right[1]-result_top_left[1], result_top_right[2]-result_top_left[2]]
+                #vx, vy, vz = v = [result_bot_right[0]-result_top_left[0], result_bot_right[1]-result_top_left[1], result_bot_right[2]-result_top_left[2]]
+                #u_cross_v = [uy*vz-uz*vy, uz*vx-ux*vz, ux*vy-uy*vx]
+                #normal = np.array(u_cross_v)
+                #rospy.loginfo("normal: " + str(result_center))
 
         except CvBridgeError as e:
             print(e)
@@ -302,4 +326,3 @@ if __name__ == '__main__':
         start_manager()
     except rospy.ROSInterruptException:
         pass
-
