@@ -19,4 +19,6 @@
     <!-- Start Navigation Nodes -->
     <include file="$(find qb)/launch/navigation/amcl.launch" />
     <include file="$(find qb)/launch/navigation/move_base.launch" />
+    <!-- Start Waypoint Manager -->
+    <include file="$(find qb_waypoint_manager)/launch/qb_waypoint_manager.launch" />
 </launch>

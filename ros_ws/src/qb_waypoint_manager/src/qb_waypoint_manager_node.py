@@ -61,15 +61,16 @@ class QbWaypointManager(object):
         self.qb_waypoint_config = get_param('~qb_waypoint_config', "")
         self.qb_odom_topic = get_param('~qb_odom_topic', "/odom")
         self.qb_waypoint_verbose = get_param('~verbose', False)
+        self.qb_wait_for_odom = get_param('~wait_for_odom', 10) # value in hundreds of miliseconds
         #setup shutdown hook
         rospy.on_shutdown(self.terminate)
         #setup pub and sub
-        self.qb_odom_sub = rospy.Subscriber('/odom', Odometry, self.qb_odom_cbk)
         self.qb_waypoint_save_srv = rospy.Service('qb_waypoint_save', QbWaypointSave, self.qb_waypoint_save_hndl)
         self.qb_waypoint_set_srv = rospy.Service('qb_waypoint_set', QbWaypointSet, self.qb_waypoint_set_hndl)
         self.qb_waypoint_get_srv = rospy.Service('qb_waypoint_get', QbWaypointGet, self.qb_waypoint_get_hndl)
         self.qb_waypoint_remove_srv = rospy.Service('qb_waypoint_remove', QbWaypointRemove, self.qb_waypoint_remove_hndl)
-
+        # reset odom fram flag
+        self.qb_odom_frame_received = False
         # check if configuration file is configured in launchfile
         if(self.qb_waypoint_config == ""):
             rospy.logerr("Waypoints configuration file path not set!")
@@ -103,10 +104,30 @@ class QbWaypointManager(object):
     #waypoint save handler
     def qb_odom_cbk(self, data):
         self.current_pose = data.pose.pose
+        self.qb_odom_frame_received = True
 
     #waypoint save handler
     def qb_waypoint_save_hndl(self, req):
         return_value = False
+        # setup watchdog for odometry frame wait
+        wdg_cnt = self.qb_wait_for_odom
+        # subscribe to odometry topic
+        self.qb_odom_sub = rospy.Subscriber(self.qb_odom_topic, Odometry, self.qb_odom_cbk)
+        # wait for the odometry frame to be received
+        while ((self.qb_odom_frame_received == False) and (wdg_cnt > 0)):
+            time.sleep(0.1)
+            wdg_cnt = wdg_cnt - 1
+        if(wdg_cnt == 0):
+            # Odometry frame wasn't received
+            rospy.logerr("Odometry frame is not available.")
+            rospy.loginfo("Please check if qb_odom_topic parameter is correctly configured, or if odometry data is available.")
+            # return response
+            return QbWaypointSaveResponse(return_value)
+        else:
+            # reset watchdog and frame received
+            wdg_cnt = self.qb_wait_for_odom
+            self.qb_odom_frame_received = True
+        # create the waipoint message
         local_wp = qb_waypoint()
         local_wp.name = str(req.name)
         local_wp.pose = self.current_pose
@@ -135,10 +156,10 @@ class QbWaypointManager(object):
         # check if waypoint already exists
         if(self.new_config != True):
             for wp in self.waypoint_array:
-                if(wp.name == req.name):
+                if(wp.name == req.waypoint.name):
                     # waypoint already extists, return error
-                    rospy.logerr("Waypoint with the same name \"" + str(req.name) + "\" already exists in configuration.")
-                    rospy.loginfo("Please remove the waypoint \"" + str(req.name) + "\" if you wish to save a new instance.")
+                    rospy.logerr("Waypoint with the same name \"" + str(req.waypoint.name) + "\" already exists in configuration.")
+                    rospy.loginfo("Please remove the waypoint \"" + str(req.waypoint.name) + "\" if you wish to save a new instance.")
                     # return response
                     return QbWaypointSetResponse(return_value)
         # save data to file
