@@ -37,7 +37,7 @@ class qb_dockSM(Behavior):
         self.add_parameter('qb_dock_speed', 0.1)
         self.add_parameter('qb_dock_max_distance', 1)
         self.add_parameter('qb_dock_distance', 0.5)
-        self.add_parameter('qb_wp_dock', '"QB_WP_DOCK"')
+        self.add_parameter('qb_wp_dock', 'QB_WP_DOCK')
 
         # references to used behaviors
 

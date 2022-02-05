@@ -31,7 +31,7 @@
 			<max value="0.6" />
 		</param>
 
-		<param type="text" name="qb_wp_dock" default=""QB_WP_DOCK"" label="qb_wp_dock" hint="Sets the qb_wp_dock" />
+		<param type="text" name="qb_wp_dock" default="QB_WP_DOCK" label="qb_wp_dock" hint="Sets the qb_wp_dock" />
 
 	</params>
 
