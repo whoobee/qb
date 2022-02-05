@@ -5,22 +5,22 @@ from flexbe_core.proxy import ProxyPublisher, ProxySubscriberCached
 
 class QbDockApproachState(EventState):
     '''
-    Driving state for a ground robot. This state allows the robot to dock into a charger
-    at a specified velocity/ speed.
+    State for qB aproaching the docking station. This state receives the waypoint info from a waypoint manager node
+    based on the provided name.
 
-    -- rotation_speed float  Speed at which to drive the robot
-    -- rotation_angle float  How far to drive the robot before leaving this state
+    -- approach_speed float  Speed at which to drive the robot to the waypoint
+    -- approach_waypoint_name string  Name of the waypoint to get via the waypoint manager
 
-    <= failed         If behavior is unable to ready on time
-    <= done           Example for a failure outcome.
+    <= failed         qB is unable to reach the waypoint
+    <= done           Waypoint reached
 
     '''
 
-    def __init__(self, rotation_speed, rotation_angle):
+    def __init__(self, approach_speed, approach_waypoint_name):
         super(QbDockApproachState, self).__init__(outcomes=['failed', 'done'])
         self._start_time = None
-        self._speed = rotation_speed
-        self._angle = rotation_angle
+        self._speed = approach_speed
+        self._waypoint_name = approach_waypoint_name
         self.data = None
         self.counter = 0
 

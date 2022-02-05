@@ -1,0 +1,13 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+    <arg name="qb_waypoint_config"      default="$(find qb)/config"/>
+    <arg name="qb_odom_topic"           default="/odom"/>
+    <arg name="output"                  default="screen"/>
+   
+    <node pkg="qb_waypoint_manager" type="qb_waypoint_manager_node.py" name="qb_waypoint_manager" ns="qb_waypoint_mngr" 
+            output="$(arg output)">
+        <param name="qb_waypoint_config"        value="$(arg qb_waypoint_config)"/>
+        <param name="qb_odom_topic"             value="$(arg qb_odom_topic)"/>
+    </node>
+
+</launch>
