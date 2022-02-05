@@ -127,6 +127,7 @@ class QbWaypointManager(object):
             # reset watchdog and frame received
             wdg_cnt = self.qb_wait_for_odom
             self.qb_odom_frame_received = True
+        self.qb_odom_sub.unregister()
         # create the waipoint message
         local_wp = qb_waypoint()
         local_wp.name = str(req.name)
@@ -225,7 +226,7 @@ class QbWaypointManager(object):
         # save data to file
         try:
             # save data to json
-            json.dump(self.serialize_waypoint_array(), self.config_file_hndl, indent=4, sort_keys=True)
+            json.dump(self.serialize_waypoint_array(), self.config_file_hndl, indent=3, sort_keys=False)
             return_value = True
         except Exception as e:
             # error while saving
@@ -244,7 +245,7 @@ class QbWaypointManager(object):
         # save data to file
         try:
             # save data to json
-            json.dump(self.serialize_waypoint_array(), self.config_file_hndl, indent=4, sort_keys=True)
+            json.dump(self.serialize_waypoint_array(), self.config_file_hndl, indent=3, sort_keys=False)
             return_value = True
         except:
             # error while saving

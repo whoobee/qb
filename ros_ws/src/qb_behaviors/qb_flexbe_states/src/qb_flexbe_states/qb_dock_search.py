@@ -25,7 +25,7 @@ class QbDockSearchState(EventState):
         self.counter = 0
 
     def execute(self, userdata):
-        Logger.loginfo("DOCK SEARCH RUNNING!")
+        if(self.counter == 0):Logger.loginfo("DOCK SEARCH RUNNING!")
         if(self.counter < 10):
             self.counter = self.counter + 1
         else:

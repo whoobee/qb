@@ -31,7 +31,9 @@
 			<max value="0.6" />
 		</param>
 
-		<param type="text" name="qb_wp_dock" default="QB_WP_DOCK" label="qb_wp_dock" hint="Sets the qb_wp_dock" />
+		<param type="text" name="qb_dock_wp" default="QB_WP_DOCK" label="qb_dock_wp" hint="Sets the qb_dock_wp" />
+
+		<param type="text" name="qb_waypoint_manager_srv" default="/qb_waypoint_mngr/qb_waypoint_get" label="qb_waypoint_manager_srv" hint="Sets the qb_waypoint_manager_srv" />
 
 	</params>
 

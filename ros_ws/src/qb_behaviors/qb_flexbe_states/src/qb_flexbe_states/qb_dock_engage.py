@@ -25,7 +25,7 @@ class QbDockEngageState(EventState):
         self.counter = 0
 
     def execute(self, userdata):
-        Logger.loginfo("DOCK ENGAGE RUNNING!")
+        if(self.counter == 0):Logger.loginfo("DOCK ENGAGE RUNNING!")
         if(self.counter < 10):
             self.counter = self.counter + 1
         else:

@@ -37,7 +37,8 @@ class qb_dockSM(Behavior):
         self.add_parameter('qb_dock_speed', 0.1)
         self.add_parameter('qb_dock_max_distance', 1)
         self.add_parameter('qb_dock_distance', 0.5)
-        self.add_parameter('qb_wp_dock', 'QB_WP_DOCK')
+        self.add_parameter('qb_dock_wp', 'QB_WP_DOCK')
+        self.add_parameter('qb_waypoint_manager_srv', '/qb_waypoint_mngr/qb_waypoint_get')
 
         # references to used behaviors
 
@@ -63,7 +64,7 @@ class qb_dockSM(Behavior):
         with _state_machine:
             # x:30 y:99
             OperatableStateMachine.add('Appoach_Docking_Point',
-                                        QbDockApproachState(approach_speed=self.qb_dock_speed, approach_waypoint_name=self.qb_wp_dock),
+                                        QbDockApproachState(approach_speed=self.qb_dock_speed, waypoint_manager_name=self.qb_dock_wp, approach_waypoint_name=self.qb_waypoint_manager_srv),
                                         transitions={'failed': 'failed', 'done': 'Align_To_Docking_Station'},
                                         autonomy={'failed': Autonomy.Off, 'done': Autonomy.Off})
 
