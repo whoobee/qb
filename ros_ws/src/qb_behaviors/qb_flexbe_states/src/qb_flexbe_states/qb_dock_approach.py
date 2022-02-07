@@ -16,27 +16,32 @@ class QbDockApproachState(EventState):
     State for qB aproaching the docking station. This state receives the waypoint info from a waypoint manager node
     based on the provided name.
 
-    -- approach_speed float  Speed at which to drive the robot to the waypoint
+    -- approach_speed         float   Speed at which to drive the robot to the waypoint
+    -- waypoint_manager_name  string  Name of the action server used to receive the waypoint info
     -- approach_waypoint_name string  Name of the waypoint to get via the waypoint manager
+    -- verbose                bool    Option for enabling debug information
 
     <= failed         qB is unable to reach the waypoint
     <= done           Waypoint reached
 
     '''
 
-    def __init__(self, approach_speed, waypoint_manager_name, approach_waypoint_name):
+    def __init__(self, approach_speed, waypoint_manager_name, approach_waypoint_name, verbose):
         super(QbDockApproachState, self).__init__(outcomes=['failed', 'done'])
         self._start_time = None
         self._speed = approach_speed
         self._waypoint_name = approach_waypoint_name
         self._waypoint_manager = waypoint_manager_name
+        self._verbose = verbose
         self.data = None
         self.counter = 0
         self.waypoint = qb_waypoint()
         self.goal = MoveBaseGoal()
 
     def execute(self, userdata):
-        if(self.counter == 0):Logger.loginfo("DOCK APPROACH RUNNING!")
+        if(self.counter == 0):
+            if(self._verbose):
+                Logger.loginfo("DOCK APPROACH RUNNING!")
         # increment execution count
         self.counter = self.counter + 1
         if(self.waypoint.name != "!ERROR!"):
@@ -51,7 +56,7 @@ class QbDockApproachState(EventState):
                 return 'failed'
             else:
                 # Goal reached!
-                Logger.loginfo("Move Base goal reached: " + str(wait))
+                if(self._verbose):Logger.loginfo("Move Base goal reached: " + str(wait))
                 return 'done'
         else:
             # Received waipoint is invalid
@@ -59,7 +64,7 @@ class QbDockApproachState(EventState):
             return 'failed'
 
     def on_enter(self, userdata):
-        Logger.loginfo("DOCK APPROACH STARTED!")
+        if(self._verbose):Logger.loginfo("DOCK APPROACH STARTED!")
         self._start_time = rospy.Time.now()
         # wait for waypoint manager service
         rospy.wait_for_service("/qb_waypoint_mngr/qb_waypoint_get")
@@ -67,7 +72,7 @@ class QbDockApproachState(EventState):
         try:
             self.qb_wp_client_hndl = rospy.ServiceProxy("/qb_waypoint_mngr/qb_waypoint_get", QbWaypointGet)
             resp = self.qb_wp_client_hndl("QB_WP_DOCK")
-            Logger.loginfo("Response: " + str(resp.waypoint))
+            if(self._verbose):Logger.loginfo("Response: " + str(resp.waypoint))
             # waypoint received from manager, set the goal info
             self.waypoint = resp.waypoint
             self.goal.target_pose.header.frame_id = "map"
@@ -77,7 +82,6 @@ class QbDockApproachState(EventState):
             self.goal.target_pose.pose.orientation.y = 0.0
         # in case of error log it
         except rospy.ServiceException as e:
-            print("Service call failed: %s"%e)
             Logger.logerr("Service call failed: %s"%e)
 
         if(self.waypoint.name != "!ERROR!"):
@@ -87,14 +91,13 @@ class QbDockApproachState(EventState):
                 self.qb_mb_client_hndl.wait_for_server()
             # in case of error log it
             except Exception as e:
-                print("Service call failed: %s"%e)
                 Logger.logerr("Service call failed: %s"%e)
         
     def on_exit(self, userdata):
-        Logger.loginfo("DOCK APPROACH ENDED!")
+        if(self._verbose):Logger.loginfo("DOCK APPROACH ENDED!")
         
     def on_start(self):
-        Logger.loginfo("DOCK APPROACH READY!")
+        if(self._verbose):Logger.loginfo("DOCK APPROACH READY!")
         
     def on_stop(self):
-        Logger.loginfo("DOCK APPROACH STOPPED!")
+        if(self._verbose):Logger.loginfo("DOCK APPROACH STOPPED!")

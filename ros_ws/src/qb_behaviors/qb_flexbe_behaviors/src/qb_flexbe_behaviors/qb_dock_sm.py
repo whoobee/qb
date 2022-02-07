@@ -52,7 +52,7 @@ class qb_dockSM(Behavior):
 
 
     def create(self):
-        # x:73 y:554, x:290 y:193
+        # x:350 y:476, x:355 y:191
         _state_machine = OperatableStateMachine(outcomes=['finished', 'failed'])
 
         # Additional creation code can be added inside the following tags
@@ -64,32 +64,32 @@ class qb_dockSM(Behavior):
         with _state_machine:
             # x:30 y:99
             OperatableStateMachine.add('Appoach_Docking_Point',
-                                        QbDockApproachState(approach_speed=self.qb_dock_speed, waypoint_manager_name=self.qb_dock_wp, approach_waypoint_name=self.qb_waypoint_manager_srv),
+                                        QbDockApproachState(approach_speed=self.qb_dock_speed, waypoint_manager_name=self.qb_dock_wp, approach_waypoint_name=self.qb_waypoint_manager_srv, verbose=False),
                                         transitions={'failed': 'failed', 'done': 'Align_To_Docking_Station'},
                                         autonomy={'failed': Autonomy.Off, 'done': Autonomy.Off})
 
             # x:28 y:465
             OperatableStateMachine.add('Engage_Connection_To_Docking_Station',
-                                        QbDockEngageState(rotation_speed=1, rotation_angle=1),
+                                        QbDockEngageState(rotation_speed=1, rotation_angle=1, verbose=False),
                                         transitions={'failed': 'failed', 'done': 'finished'},
                                         autonomy={'failed': Autonomy.Off, 'done': Autonomy.Off})
 
             # x:29 y:369
             OperatableStateMachine.add('Park_In_Docking_Station',
-                                        QbDockParkState(rotation_speed=1, rotation_angle=1),
+                                        QbDockParkState(rotation_speed=1, rotation_angle=1, verbose=False),
                                         transitions={'failed': 'failed', 'done': 'Engage_Connection_To_Docking_Station'},
                                         autonomy={'failed': Autonomy.Off, 'done': Autonomy.Off})
 
-            # x:29 y:274
+            # x:28 y:182
             OperatableStateMachine.add('Search_Docking_Station',
-                                        QbDockSearchState(rotation_speed=0.3, rotation_angle=30),
-                                        transitions={'failed': 'failed', 'done': 'Park_In_Docking_Station'},
+                                        QbDockSearchState(rotation_speed=0.3, rotation_angle=30, command_velocity="/cmd_vel", marker_id=701, dictionary="DICT_ARUCO_ORIGINAL", verbose=True),
+                                        transitions={'failed': 'failed', 'done': 'Search_Docking_Station'},
                                         autonomy={'failed': Autonomy.Off, 'done': Autonomy.Off})
 
-            # x:28 y:179
+            # x:26 y:273
             OperatableStateMachine.add('Align_To_Docking_Station',
-                                        QbDockAlignState(rotation_speed=1, rotation_angle=1),
-                                        transitions={'failed': 'failed', 'done': 'Search_Docking_Station'},
+                                        QbDockAlignState(rotation_speed=1, rotation_angle=1, verbose=False),
+                                        transitions={'failed': 'failed', 'done': 'Park_In_Docking_Station'},
                                         autonomy={'failed': Autonomy.Off, 'done': Autonomy.Off})
 
 
