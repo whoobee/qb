@@ -65,7 +65,7 @@ class qb_dockSM(Behavior):
             # x:30 y:99
             OperatableStateMachine.add('Appoach_Docking_Point',
                                         QbDockApproachState(approach_speed=self.qb_dock_speed, waypoint_manager_name=self.qb_dock_wp, approach_waypoint_name=self.qb_waypoint_manager_srv, verbose=False),
-                                        transitions={'failed': 'failed', 'done': 'Align_To_Docking_Station'},
+                                        transitions={'failed': 'failed', 'done': 'Search_Docking_Station'},
                                         autonomy={'failed': Autonomy.Off, 'done': Autonomy.Off})
 
             # x:28 y:465
@@ -82,8 +82,8 @@ class qb_dockSM(Behavior):
 
             # x:28 y:182
             OperatableStateMachine.add('Search_Docking_Station',
-                                        QbDockSearchState(rotation_speed=0.3, rotation_angle=30, command_velocity="/cmd_vel", marker_id=701, dictionary="DICT_ARUCO_ORIGINAL", verbose=True),
-                                        transitions={'failed': 'failed', 'done': 'Search_Docking_Station'},
+                                        QbDockSearchState(rotation_speed=0.5, rotation_angle=45, command_velocity="/cmd_vel", marker_id=701, dictionary="DICT_ARUCO_ORIGINAL", verbose=True),
+                                        transitions={'failed': 'failed', 'done': 'Align_To_Docking_Station'},
                                         autonomy={'failed': Autonomy.Off, 'done': Autonomy.Off})
 
             # x:26 y:273

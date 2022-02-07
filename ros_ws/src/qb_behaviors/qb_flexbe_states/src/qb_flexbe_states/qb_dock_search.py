@@ -39,19 +39,23 @@ ARUCO_DICT = {
 }
 
 # initialization substate
-SS_INIT     = 0
+SS_INIT                 = 0
+# calculate search angle substate
+SS_CALC_SEARCH_ANGLE    = 1
 # rotate substate
-SS_ROTATE   = 1
+SS_ROTATE               = 2
+# calculate adjust angle substate
+SS_CALC_ADJUST_ANGLE    = 3
 # angle adjust substate
-SS_ADJUST   = 2
+SS_ADJUST               = 4
 # verification substate
-SS_VERIFY   = 3
+SS_VERIFY               = 5
 # depth measurment substate
-SS_MEASURE  = 4
+SS_MEASURE              = 6
 # success substate
-SS_DONE     = 5
+SS_DONE                 = 7
 # failure substate
-SS_FAILURE  = 6
+SS_FAILURE              = 8
 
 class QbDockSearchState(EventState):
     '''
@@ -81,7 +85,7 @@ class QbDockSearchState(EventState):
         # Init local params
         self._start_time = None
         self._speed = rotation_speed
-        self._angle = rotation_angle
+        self._angle = np.radians(rotation_angle)
         self._command_velocity = command_velocity
         self._marker_id = marker_id
         self.qb_docker_rgb = "/d435/color/image_raw"
@@ -108,18 +112,28 @@ class QbDockSearchState(EventState):
         self.angular_z_accepted_err = 0.05
         # Proportional reg parameter
         self.kP = 2
+        # Current odometry yaw angle
+        self.odom_yaw = 0.0
         # Angle to adjust the robot position after marker is found
         self.adjust_angle = 0.0
+        # Target angle taken current odometry into account
+        self.target_angle = 0.0
 
     def execute(self, userdata):
         if(self.counter == 0):
             if(self._verbose):
                 Logger.loginfo("DOCK SEARCH RUNNING!")
+        # calculate the rotation angle
+        if(self.local_substate == SS_CALC_SEARCH_ANGLE):
+            if(self._verbose):Logger.loginfo("Substate = SS_CALC_SEARCH_ANGLE")
+            # calculate the target angle in radians
+            self.target_angle = self.odom_yaw + self._angle
+            self.local_substate = SS_ROTATE
         # rotate the robot x deg
-        if(self.local_substate == SS_ROTATE):
+        elif(self.local_substate == SS_ROTATE):
             if(self._verbose):Logger.loginfo("Substate = SS_ROTATE")
             # rotate self._angle degrees
-            if(self.rotate_deg(self._angle) == True):
+            if(self.rotate_to_target_deg(self.target_angle) == True):
                 # Rotation complete
                 self.local_substate = SS_VERIFY
         # check if marker is visible
@@ -134,11 +148,17 @@ class QbDockSearchState(EventState):
             # We wait for the camera callback to measure the distance and angle to ArUco marker,
             # handling is done in depth_stream_cbk(self, data) function
             pass
+        # calculate the adjustment angle
+        elif(self.local_substate == SS_CALC_ADJUST_ANGLE):
+            if(self._verbose):Logger.loginfo("Substate = SS_CALC_ADJUST_ANGLE")
+            # calculate the target angle in radians
+            self.target_angle = self.odom_yaw + self.adjust_angle
+            self.local_substate = SS_ADJUST
         # fine adjust the robot to face the marker
         elif(self.local_substate == SS_ADJUST):
             if(self._verbose):Logger.loginfo("Substate = SS_ADJUST")
             # rotate self.adjust_angle degrees
-            if(self.rotate_deg(self.adjust_angle) == True):
+            if(self.rotate_to_target_deg(self.target_angle) == True):
                 # Rotation complete
                 self.local_substate = SS_DONE
         # mark state as done
@@ -192,19 +212,25 @@ class QbDockSearchState(EventState):
 
 
     # Rotate robot x deg
-    def rotate_deg(self, _deg):
+    def rotate_to_target_deg(self, _deg):
         result = False
-        # Convert angle to radians
-        _rad_angle = np.radians(_deg)
+        local_deg = _deg
+        # Check if degree is between -RI to PI
+        if(_deg > np.pi):
+            local_deg = _deg - np.pi
+        elif(_deg < -np.pi):
+            local_deg = np.pi - _deg
         # Use a simple proportional regulator
-        self.vel_msg.angular.z = (self.kP * (_rad_angle - self.odom_yaw))
+        self.vel_msg.angular.z = (self.kP * (local_deg - self.odom_yaw))
         # clamp rotation speed to the provided value
-        if(self.vel_msg.angular.z > self._speed+self._speed): self.vel_msg.angular.z = self._speed+self._speed
+        if(self.vel_msg.angular.z > self._speed): self.vel_msg.angular.z = self._speed
+        if(self.vel_msg.angular.z < -self._speed): self.vel_msg.angular.z = -self._speed
         # publish velocity msg
         self.pub.publish(self.vel_msg)
         # debug info
         if(self._verbose):Logger.loginfo("Cmd-vel yaw: " + str(self.vel_msg.angular.z))
-        if(self._verbose):Logger.loginfo("Target angle: " + str(_deg))
+        if(self._verbose):Logger.loginfo("Target angle: " + str(local_deg))
+        if(self._verbose):Logger.loginfo("Odom angle: " + str(self.odom_yaw))
         # check if we reached the desired angle
         if((self.vel_msg.angular.z <= self.angular_z_accepted_err) and (self.vel_msg.angular.z >= -self.angular_z_accepted_err)):
             # goal reached, stop rotating and return success
@@ -269,12 +295,11 @@ class QbDockSearchState(EventState):
             # In case we found the marker
             if(marker_found == True):
                 # Switch to adjust substate
-                self.local_substate = SS_ADJUST
+                self.local_substate = SS_CALC_ADJUST_ANGLE
                 if(self._verbose):Logger.loginfo("Marker " + str(self._marker_id) + " was found.")
             else:
                 # Search again
-                self.local_substate = SS_ROTATE
-                self._angle = 30 + np.degrees(self.odom_yaw)
+                self.local_substate = SS_CALC_SEARCH_ANGLE
                 if(self._verbose):Logger.loginfo("Marker " + str(self._marker_id) + " was not found.")
         # Done
         return
@@ -316,9 +341,9 @@ class QbDockSearchState(EventState):
                 Logger.logerr("CvBridge exception: %s"%e)
                 # Switch to failure substate
                 self.local_substate = SS_FAILURE
-            # In case we found the angle, switch to SS_ADJUST substate
+            # In case we found the angle, switch to SS_CALC_ADJUST_ANGLE substate
             if(angle_calculated == True):
-                self.local_substate = SS_ADJUST
+                self.local_substate = SS_CALC_ADJUST_ANGLE
             else:
                 # in case angle not determined, try again
                 self.adjust_angle = 0.0
